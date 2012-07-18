@@ -14,4 +14,9 @@ describe ConfigurationReader do
   	@reader.load.should == true
   end
 
+	it "should load default settings on initialize" do
+  	@newreader = ConfigurationReader.new
+  	@newreader.yaml.should_not == nil
+	end
+
 end
