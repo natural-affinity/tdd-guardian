@@ -5,6 +5,7 @@ class ConfigurationReader
 
 	def initialize
 		load
+		parse
 	end
 
 	def load(dir = 'config', file = 'settings.yaml')
@@ -17,7 +18,5 @@ class ConfigurationReader
 	def parse
 		@guards = @yaml['guards']
 		@project = @yaml['project']
-
 	end
-
 end

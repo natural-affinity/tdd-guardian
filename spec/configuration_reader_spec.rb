@@ -27,11 +27,17 @@ describe ConfigurationReader do
   	ConfigurationReader.new.yaml.should_not == nil
 	end
 
+	it "should parse all settings on initialize" do
+		reader = ConfigurationReader.new
+		
+		reader.project.should_not == nil
+		reader.guards.should_not == nil		
+	end
+
 	it "should load a project name" do
   	config = {'project' => 'conan-the-barbarian'}
   	YAML.stub(:load_file).and_return(config)
 
-		@reader.parse
   	@reader.project.should == config['project']
 	end
 
@@ -39,8 +45,6 @@ describe ConfigurationReader do
   	config = {'guards' => ['bundler', 'rspec']}
   	YAML.stub(:load_file).and_return(config)		
 
-		@reader.load.should == true
-		@reader.parse
 		config['guards'].each do | guard | 
     	@reader.guards.include?(guard).should == true
 		end
