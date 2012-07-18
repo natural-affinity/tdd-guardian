@@ -50,18 +50,14 @@ describe ConfigurationReader do
 	end
 
 	it "should utilize a default guard if not specified" do
-  	guards = {'guards' => nil}
-  	write_settings(@project, guards)
-  	
-  	@reader = ConfigurationReader.new
-  	@reader.guards.size.should == 1
-    @reader.guards.include?('bundler').should == true
+  	guards = [{'guards' => nil}, {}]
 
-		guards = {}
-		write_settings(@project, guards)
-		@reader = ConfigurationReader.new
-		@reader.guards.size.should == 1
-		@reader.guards.include?('bundler').should == true
-	end
+  	guards.each do | g |
+    	write_settings(@project, g)  		
+  		@reader = ConfigurationReader.new
+  		@reader.guards.size.should == 1
+    	@reader.guards.include?('bundler').should == true
+  	end
+  end
 
 end
