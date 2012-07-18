@@ -1,10 +1,10 @@
 require 'yaml'
 
 class ConfigurationReader
-	attr_reader :yaml
+	attr_reader :yaml, :guards
 
 	def initialize
-		@yaml = load
+		load
 	end
 
 	def load(dir = 'config', file = 'settings.yaml')
@@ -13,4 +13,10 @@ class ConfigurationReader
 		@yaml = YAML::load(File.open(path))
 		@yaml.nil? == false		
 	end
+
+	def parse
+		@guards = @yaml['guards']
+
+	end
+
 end

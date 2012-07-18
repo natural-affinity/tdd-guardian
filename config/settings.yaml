@@ -1,2 +1,5 @@
 ---
-test_param:
+guards:
+- bundler
+- shell
+- rspec
