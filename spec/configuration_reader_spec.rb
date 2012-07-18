@@ -7,31 +7,27 @@ require_relative '../lib/configuration_reader'
 describe ConfigurationReader do
 	DEFAULT_CONFIG = 'config/settings.yaml'
 
-	before(:all) do
-  	project = {'project' => 'conan-the-barbarian'}
+	before(:each) do
+		project = {'project' => 'conan-the-barbarian'}
   	guards = {'guards' => ['bundler', 'rspec']}
   	config = project.merge(guards)
 
   	File.open(DEFAULT_CONFIG, 'w') {|f| f.write(config.to_yaml) }
-	end
-
-	before(:each) do
+	
   	@reader = ConfigurationReader.new
 	end
 
-	it "should load settings from a default file [config/settings.yaml]" do
-  	@reader.load.should == true
-  end
+	it "should load settings from a default file [config/settings.yaml] on init" do
+  	@reader.yaml.should_not == nil
 
-	it "should load default settings on initialize" do
-  	ConfigurationReader.new.yaml.should_not == nil
+  	File.delete(DEFAULT_CONFIG)
+  	@reader = ConfigurationReader.new
+  	@reader.yaml.should == nil
 	end
 
-	it "should parse all settings on initialize" do
-		reader = ConfigurationReader.new
-		
-		reader.project.should_not == nil
-		reader.guards.should_not == nil		
+	it "should parse all settings on init" do
+		@reader.project.should_not == nil
+		@reader.guards.should_not == nil		
 	end
 
 	it "should load a project name" do
