@@ -3,14 +3,12 @@ Guardian
 This application serves as a skeleton generator for 
 setting up fully automated TDD project templates using 
 Guard.  It allows one to start with a red-green refactor
-cycle with full Growl notifications from the get-go.
+cycle with Growl notifications from the get-go.
 
 Available Templates
 ===================
 
 * General
-* Sinatra
-* Rails
 
 Prerequisites
 -------------
