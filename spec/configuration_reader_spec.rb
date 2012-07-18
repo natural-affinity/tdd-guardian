@@ -5,6 +5,15 @@ SimpleCov.start
 require_relative '../lib/configuration_reader'
 
 describe ConfigurationReader do
+	DEFAULT_CONFIG = 'config/settings.yaml'
+
+	before(:all) do
+  	project = {'project' => 'conan-the-barbarian'}
+  	guards = {'guards' => ['bundler', 'rspec']}
+  	config = project.merge(guards)
+
+  	File.open(DEFAULT_CONFIG, 'w') {|f| f.write(config.to_yaml) }
+	end
 
 	before(:each) do
   	@reader = ConfigurationReader.new
@@ -18,14 +27,22 @@ describe ConfigurationReader do
   	ConfigurationReader.new.yaml.should_not == nil
 	end
 
+	it "should load a project name" do
+  	config = {'project' => 'conan-the-barbarian'}
+  	YAML.stub(:load_file).and_return(config)
+
+		@reader.parse
+  	@reader.project.should == config['project']
+	end
+
 	it "should load a list of guards" do
-  	config = {'guards' => ['bundler', 'shell', 'rspec']}
+  	config = {'guards' => ['bundler', 'rspec']}
   	YAML.stub(:load_file).and_return(config)		
 
 		@reader.load.should == true
 		@reader.parse
-		@reader.guards.each do | guard | 
-    	config['guards'].include?(guard).should == true
+		config['guards'].each do | guard | 
+    	@reader.guards.include?(guard).should == true
 		end
 	end
 

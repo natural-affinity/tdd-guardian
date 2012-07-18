@@ -1,7 +1,7 @@
 require 'yaml'
 
 class ConfigurationReader
-	attr_reader :yaml, :guards
+	attr_reader :yaml, :guards, :project
 
 	def initialize
 		load
@@ -16,6 +16,7 @@ class ConfigurationReader
 
 	def parse
 		@guards = @yaml['guards']
+		@project = @yaml['project']
 
 	end
 

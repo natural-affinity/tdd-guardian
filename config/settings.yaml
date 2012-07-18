@@ -1,5 +1,5 @@
 ---
+project: conan-the-barbarian
 guards:
 - bundler
-- shell
 - rspec
