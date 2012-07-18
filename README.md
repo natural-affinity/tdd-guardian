@@ -14,4 +14,5 @@ Prerequisites
 -------------
 
 * Bundler Gem 1.2.0.rc (gem install bundler --pre)
-* Growl and growlnotify 1.3+
+* Growl 1.3+ (should be running)
+* Growlnotify 1.3+ (should be on the path)
