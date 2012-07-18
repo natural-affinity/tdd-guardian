@@ -2,6 +2,8 @@ require_relative '../spec/spec_helper'
 require_relative '../lib/configuration_reader'
 
 describe ConfigurationReader do
+	include GuardianSpecHelper
+
 	DEFAULT_CONFIG = 'config/settings.yaml'
 
 	before(:each) do
