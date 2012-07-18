@@ -1,28 +1,22 @@
-require 'simplecov'
-
-SimpleCov.start
-	
+require_relative '../spec/spec_helper'
 require_relative '../lib/configuration_reader'
 
 describe ConfigurationReader do
 	DEFAULT_CONFIG = 'config/settings.yaml'
 
 	before(:each) do
-		project = {'project' => 'conan-the-barbarian'}
-  	guards = {'guards' => ['bundler', 'rspec']}
-  	config = project.merge(guards)
+		@project = {'project' => 'conan-the-barbarian'}
+  	@guards = {'guards' => ['bundler', 'rspec']}
 
-  	File.open(DEFAULT_CONFIG, 'w') {|f| f.write(config.to_yaml) }
-	
+		write_settings(@project, @guards, DEFAULT_CONFIG)
   	@reader = ConfigurationReader.new
 	end
 
-	it "should load settings from a default file [config/settings.yaml] on init" do
+	it "should read a default file [#{DEFAULT_CONFIG}] on init" do
   	@reader.yaml.should_not == nil
 
   	File.delete(DEFAULT_CONFIG)
-  	@reader = ConfigurationReader.new
-  	@reader.yaml.should == nil
+  	ConfigurationReader.new.yaml.should == nil
 	end
 
 	it "should parse all settings on init" do
@@ -37,6 +31,15 @@ describe ConfigurationReader do
   	@reader.project.should == config['project']
 	end
 
+	it "should utilize a default project name if not specified" do
+		project = {'project' => nil}
+		write_settings(project, @guards)
+		ConfigurationReader.new.project.should == 'new-project'
+
+		write_settings({}, @guards)
+		ConfigurationReader.new.project.should == 'new-project'
+	end
+
 	it "should load a list of guards" do
   	config = {'guards' => ['bundler', 'rspec']}
   	YAML.stub(:load_file).and_return(config)		
@@ -44,6 +47,21 @@ describe ConfigurationReader do
 		config['guards'].each do | guard | 
     	@reader.guards.include?(guard).should == true
 		end
+	end
+
+	it "should utilize a default guard if not specified" do
+  	guards = {'guards' => nil}
+  	write_settings(@project, guards)
+  	
+  	@reader = ConfigurationReader.new
+  	@reader.guards.size.should == 1
+    @reader.guards.include?('bundler').should == true
+
+		guards = {}
+		write_settings(@project, guards)
+		@reader = ConfigurationReader.new
+		@reader.guards.size.should == 1
+		@reader.guards.include?('bundler').should == true
 	end
 
 end

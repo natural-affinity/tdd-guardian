@@ -15,7 +15,12 @@ class ConfigurationReader
 	end
 
 	def parse
-		@guards = @yaml['guards']
-		@project = @yaml['project']
+		@guards = parse_with_default('guards', ['bundler'])
+		@project = parse_with_default('project', 'new-project')
+	end
+
+	def parse_with_default(setting, default)
+		value = @yaml[setting]
+		value == nil ? default : @yaml[setting]	
 	end
 end
