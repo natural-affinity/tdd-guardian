@@ -1,9 +1,0 @@
-source 'http://rubygems.org'
-
-gem guard-bundler, :groups => [:development, :test]
-gem haml, :groups => [:development, :test]
-gem guard-haml, :groups => [:development, :test]
-gem rspec, :groups => [:development, :test]
-gem guard-rspec, :groups => [:development, :test]
- 
-
