@@ -1,4 +1,4 @@
-require_relative '../spec/spec_helper'
+require 'spec_helper'
 require_relative '../lib/configuration_reader'
 
 describe ConfigurationReader do

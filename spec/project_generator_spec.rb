@@ -40,4 +40,9 @@ describe ProjectGenerator do
 		File.exists?(folder).should == true
 		delete_folder(folder)
 	end
+
+	it "should generate a gemfile based on guard config from template" do
+  	File.delete('gemtest')
+  	@generator.create_gemfile
+	end
 end

@@ -1,0 +1,5 @@
+source 'http://rubygems.org'
+
+<% @gems.each do |item| %><%= item %>
+<% end %> 
+
