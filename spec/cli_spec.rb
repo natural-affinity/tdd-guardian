@@ -13,8 +13,8 @@ describe Guardian::CLI do
 	it "should feature the following commands" do
 		output = capture(:stdout) { Guardian::CLI.start }
 		output.should =~ /guardian help/
-		output.should =~ /guardian version/
-		output.should =~ /guardian validate/
+		output.should =~ /guardian --version/
+		output.should =~ /guardian config/
 	end
 
 	it "should display version details with <guardian> --version" do
