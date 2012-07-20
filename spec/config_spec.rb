@@ -61,14 +61,25 @@ end
   	 	output.should =~ /No value provided for required options \'--file\'/ 
   	end
 
-  	it "should display a warning if the file is not valid" do
+		it "should allow a -f alias for --file" do
+			options = ['config', 'validate', '-f']
+			output = capture(:stderr) { Guardian::CLI.start(options) }
+  	 	output.should =~ /No value provided for required options \'--file\'/ 
+		end
+
+  	it "should display a warning if the filename is empty" do
     	options = ['config', 'validate', '--file=']
     	output = capture(:stdout) { Guardian::CLI.start(options) }
     	output.include?("No configuration file named '' found").should == true
-    	output.include?("guardian <config> <list>").should == true
   	end
 
-		it "should run guardian <config> <list> if no files found" do
+		it "should display a warning and not allow paths in the filename" do
+			options = ['config', 'validate', '--file=/blah']
+			output = capture(:stdout) { Guardian::CLI.start(options) }
+			output.include?("No configuration file named '/blah' found").should == true
+		end
+
+		it "should invoke guardian <config> <list> if no files found" do
     	config = File.join(Guardian::CONFIG_PATH, 'test.yaml')
       FileUtils.touch(config)
 
@@ -77,7 +88,6 @@ end
 			output.include?("test.yaml").should == true
 
 			FileUtils.rm(config)
-
 		end
 
 	end

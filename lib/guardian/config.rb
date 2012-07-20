@@ -19,10 +19,10 @@ class Guardian::Config < Thor
 	desc 'validate', 'Validates the contents of a configuration file'
 	method_option :file, :required => true, :lazy_default => '', :aliases => '-f'
 	def validate
-  	if options[:file].empty?
+  	if options[:file].empty? || options[:file].include?(File::SEPARATOR)
   		say_status :error, "No configuration file named '#{options[:file]}' found", :red
-  		say_status :solution, "scanning for files in #{Guardian::CONFIG_PATH} with guardian <config> <list>", :blue
-  		invoke 'list', nil, [] 
+  		say_status :solution, "Searching for configuration files in #{Guardian::CONFIG_PATH}", :blue
+  		invoke :list, nil, [] 
   	end
 	end
 
