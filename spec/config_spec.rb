@@ -90,6 +90,9 @@ end
 			FileUtils.rm(config)
 		end
 
+		it "should invoke Guardian::Config::Validation for a valid file" do
+		end
+
 	end
 
 end
