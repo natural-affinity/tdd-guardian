@@ -24,6 +24,11 @@ module GuardianSpecHelper
   	result
 	end
 
+	def create_folder(path)
+		delete_folder(path)
+		Dir.mkdir(path)
+	end
+
 	def delete_folder(path)
 		FileUtils.rm_rf(path) if File.exists?(path)
 	end
