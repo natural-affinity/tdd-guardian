@@ -2,7 +2,7 @@ module Guardian
 
 	# Internal Application Information
 	NAME = 'Guardian'
-	VERSION = '0.1.0'
+	VERSION = '0.1.20'
 	COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'	
 	CONFIGURATION = 'settings.yaml'
 
@@ -13,5 +13,6 @@ module Guardian
 	TEMPLATE_PATH = "#{ROOT}/templates"
 
 	# Load Guardian Classes
+	autoload :Config, "#{ROOT}/lib/guardian/config"
 	autoload :CLI, "#{ROOT}/lib/guardian/cli"
 end

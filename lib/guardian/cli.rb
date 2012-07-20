@@ -4,9 +4,7 @@ class Guardian::CLI < Thor
 	map '--version' => 'version'
 
 	desc 'config', 'Configuration file manipulation for project templates'
-	def config
-  	raise 'Not Implemented'
-	end
+	subcommand 'config', Guardian::Config
 
 	desc '--version', 'Displays guardian application version details'
 	def version
