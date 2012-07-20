@@ -3,10 +3,8 @@ module Guardian
 	# Internal Application Information
 	NAME = 'Guardian'
 	VERSION = '0.1.0'
-	COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'
-
-	# Targets
-	TARGET_PATH = '~/workspace'
+	COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'	
+	CONFIGURATION = 'settings.yaml'
 
 	# General Paths
 	ROOT = File.expand_path('.')
