@@ -14,7 +14,8 @@ describe Guardian::Config do
   	options = %w[config]	
 		output = capture(:stdout) { Guardian::CLI.start(options) }
     output.should =~ /guardian config list/
-	end
+		output.should =~ /guardian config validate/
+end
 
 	context "guardian config list" do
   	it "should not list the settings.yaml internal config file" do
@@ -51,6 +52,34 @@ describe Guardian::Config do
     	output.include?("No configuration files found.").should == true
 			output.include?("guardian <config> <generate>").should == true
 		end
+	end
+
+	context "guardian config validate" do
+  	it "should require a --file option" do
+  		options = ["config", "validate"]
+  		output = capture(:stderr) { Guardian::CLI.start(options) }
+  	 	output.should =~ /No value provided for required options \'--file\'/ 
+  	end
+
+  	it "should display a warning if the file is not valid" do
+    	options = ['config', 'validate', '--file=']
+    	output = capture(:stdout) { Guardian::CLI.start(options) }
+    	output.include?("No configuration file named '' found").should == true
+    	output.include?("guardian <config> <list>").should == true
+  	end
+
+		it "should run guardian <config> <list> if no files found" do
+    	config = File.join(Guardian::CONFIG_PATH, 'test.yaml')
+      FileUtils.touch(config)
+
+      options = ['config', 'validate', '--file=']
+      output = capture(:stdout) { Guardian::CLI.start(options) }
+			output.include?("test.yaml").should == true
+
+			FileUtils.rm(config)
+
+		end
+
 	end
 
 end
