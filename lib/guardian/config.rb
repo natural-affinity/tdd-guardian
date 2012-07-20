@@ -9,11 +9,11 @@ class Guardian::Config < Thor
     files.delete_if { | f | f.end_with?('.yaml', '.yaml.example') == false }
       
     if files.empty?
-    	say "No configuration files found.", :red	
+    	say "No configuration files found.", :red
+    	say "Use the guardian <config> <generate> wizard for assistance", :blue
     else	
     	files.each { | f | say f, :yellow }
     end
-    
 	end
 
 end

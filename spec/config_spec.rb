@@ -49,8 +49,8 @@ describe Guardian::Config do
 		it "should display a warning if no configuration files are found" do
     	output = capture(:stdout) { @cli.list }
     	output.include?("No configuration files found.").should == true
+			output.include?("guardian <config> <generate>").should == true
 		end
-
 	end
 
 end
