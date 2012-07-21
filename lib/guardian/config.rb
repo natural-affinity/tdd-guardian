@@ -20,26 +20,33 @@ class Guardian::Config < Thor
 	desc 'validate', 'Validates the contents of a configuration file'
 	method_option :file, :required => true, :lazy_default => '', :aliases => '-f'
 	def validate
-  	filename = options[:file]
+  	filename = get_filename(options[:file])
   	is_valid = get_config_list.include?(filename)
 
   	unless is_valid
   		say_status :error, "No configuration file named '#{filename}' found", :red
   		say_status :solution, "Please use guardian <config> <list> for valid filenames"
   		say_status :solution, "Searching for configuration files in #{Guardian::CONFIG_PATH}", :blue
-  		invoke :list, nil, [] 
-		else
-			path = File.join(Guardian::CONFIG_PATH, filename)
-			yaml = YAML::load(File.open(path))
-			yaml = {} if yaml.nil?
-
-			validate_project(yaml[PROJECT_NAME])
-
+  		invoke :list, nil, []
+		  return
 		end
+
+		path = File.join(Guardian::CONFIG_PATH, filename)
+		yaml = YAML::load(File.open(path))
+		yaml = {} if (yaml.nil? || yaml == false)
+
+		validate_project(yaml[PROJECT_NAME])
  	end
 
 	private
-	
+
+	def get_filename(filename)
+		return filename if (filename.nil? || filename.empty?)
+
+		filename << '.yaml' unless filename.include?('.yaml')
+		filename
+	end
+
 	# Helper method to fetch a valid list of configuration files
 	def get_config_list
     files = Dir.entries(Guardian::CONFIG_PATH)

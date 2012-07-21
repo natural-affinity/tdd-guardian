@@ -76,7 +76,7 @@ describe Guardian::Config do
 		it "should display a warning and not allow paths in the filename" do
 			options = ['config', 'validate', '--file=/blah']
 			output = capture(:stdout) { Guardian::CLI.start(options) }
-			output.include?("No configuration file named '/blah' found").should == true
+			output.include?("No configuration file named '/blah.yaml' found").should == true
 		end
 
 		it "should invoke guardian <config> <list> if no files found" do
@@ -86,15 +86,23 @@ describe Guardian::Config do
       options = ['config', 'validate', '--file=']
       output = capture(:stdout) { Guardian::CLI.start(options) }
 
-
 			FileUtils.rm_f([config])
 			output.include?("test.yaml").should == true
 		end
 	end
 
-	#TODO::Detect yaml extension when typing filename -- otherwise append automatically
-
 	context "guardian config validate (file)" do
+		it "should auto add the yaml extension to the specified config file name" do
+			config = File.join(Guardian::CONFIG_PATH, 'katana.yaml')
+			FileUtils.touch(config)
+
+			options = ['config', 'validate', '-f=katana']
+			output = capture(:stdout) { Guardian::CLI.start(options) }
+
+			FileUtils.rm_f([config])
+			output.should_not =~ /No configuration file/
+		end
+
 		it "should display a warning if the project name is not set" do
 			config = File.join(Guardian::CONFIG_PATH, 'katana.yaml')
 			project = {'project' => nil}
