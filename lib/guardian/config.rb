@@ -26,7 +26,7 @@ class Guardian::Config < Thor
   	unless is_valid
   		say_status :error, "No configuration file named '#{filename}' found", :red
   		say_status :solution, "Please use guardian <config> <list> for valid filenames", :blue
-  		say_status :solution, "Searching for configuration files in #{Guardian::CONFIG_PATH}", :blue
+  		say_status :warn, "Searching for configuration files in #{Guardian::CONFIG_PATH}", :yellow
   		invoke :list, nil, []
 		  return
 		end
@@ -68,9 +68,7 @@ class Guardian::Config < Thor
 		if guards.nil?
 			say_status :warn, "no guards specified", :yellow
 		else
-			guards.each do | g |
-				say_status :success, "guard-#{g} detected", :yellow
-			end
+			guards.each { | g | say_status :success, "guard-#{g} detected", :yellow }
 		end
 	end
 end

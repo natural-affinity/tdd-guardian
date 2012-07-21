@@ -144,7 +144,7 @@ describe Guardian::Config do
 			output.should =~ /no guards specified/
 		end
 
-		it "shoudl display a success message for each guard found" do
+		it "should display a success message for each guard found" do
 			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
 			project = {'project' => nil}
 			guards = {'guards' => %w[bundler rspec]}
@@ -157,8 +157,19 @@ describe Guardian::Config do
 			output.should =~ /guard-rspec detected/
 		end
 
-		# TODO:: Compounded Errors
-		# TODO:: Compounded Success
+		it "should display compound status messages" do
+			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
+			project = {'project' => 'project_zero'}
+			guards = {'guards' => nil}
+			write_settings(project, guards, config)
+
+			options = ['config', 'validate', '-f=project_zero.yaml']
+			output = capture(:stdout) { Guardian::CLI.start(options) }
+			FileUtils.rm_f([config])
+			output.should =~ /project name 'project_zero' detected/
+			output.should =~ /no guards specified/
+		end
+
 	end
 
 end
