@@ -28,16 +28,15 @@ class Guardian::Config < Thor
   		say_status :solution, "Please use guardian <config> <list> for valid filenames"
   		say_status :solution, "Searching for configuration files in #{Guardian::CONFIG_PATH}", :blue
   		invoke :list, nil, [] 
-  	end
+		else
+			path = File.join(Guardian::CONFIG_PATH, filename)
+			yaml = YAML::load(File.open(path))
+			yaml = {} if yaml.nil?
 
-		path = File.join(Guardian::CONFIG_PATH, filename)
-  	yaml = YAML::load(path)
-		yaml = {} if yaml.nil?
+			validate_project(yaml[PROJECT_NAME])
 
-		validate_project(yaml[PROJECT_NAME])
-
-
-  	end
+		end
+ 	end
 
 	private
 	
@@ -53,7 +52,7 @@ class Guardian::Config < Thor
 		if name.nil?
 			say_status :warn, "project name not set", :yellow
 		else
-		  say_status :success, "project name #{name} detected", :green
+		  say_status :success, "project name '#{name}' detected", :green
 		end
 	end
 end
