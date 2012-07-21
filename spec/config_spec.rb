@@ -15,7 +15,7 @@ describe Guardian::Config do
 		output = capture(:stdout) { Guardian::CLI.start(options) }
     output.should =~ /guardian config list/
 		output.should =~ /guardian config validate/
-end
+	end
 
 	context "guardian config list" do
   	it "should not list the settings.yaml internal config file" do
@@ -54,17 +54,17 @@ end
 		end
 	end
 
-	context "guardian config validate" do
+	context "guardian config validate (no file)" do
   	it "should require a --file option" do
   		options = ["config", "validate"]
   		output = capture(:stderr) { Guardian::CLI.start(options) }
-  	 	output.should =~ /No value provided for required options \'--file\'/ 
+  	 	output.should =~ /No value provided for required options '--file'/
   	end
 
 		it "should allow a -f alias for --file" do
 			options = ['config', 'validate', '-f']
 			output = capture(:stderr) { Guardian::CLI.start(options) }
-  	 	output.should =~ /No value provided for required options \'--file\'/ 
+  	 	output.should =~ /No value provided for required options '--file'/
 		end
 
   	it "should display a warning if the filename is empty" do
@@ -87,12 +87,30 @@ end
       output = capture(:stdout) { Guardian::CLI.start(options) }
 			output.include?("test.yaml").should == true
 
-			FileUtils.rm(config)
+			FileUtils.rm([config])
 		end
+	end
 
-		it "should invoke Guardian::Config::Validation for a valid file" do
-		end
+	#TODO::Detect yaml extension when typing filename -- otherwise append automatically
+
+	context "guardian config validate (file)" do
+
+		it "should display a warning if the project name is not set" do
+			config = File.join(Guardian::CONFIG_PATH, 'katana.yaml')
+			project = {'project' => nil}
+			guards = {'guards' => nil}
+			write_settings(project, guards, config)
+
+			options = ['config', 'validate', '-f=katana.yaml']
+			output = capture(:stdout) { Guardian::CLI.start(options) }
+
+			FileUtils.rm_f([config])
+			output.should =~ /project name not set/
+
+			end
+
 
 	end
+
 
 end

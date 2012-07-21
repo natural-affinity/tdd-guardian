@@ -1,6 +1,9 @@
 require 'thor'
+require 'yaml'
 
 class Guardian::Config < Thor
+	PROJECT_NAME = 'project'
+
 
 	desc 'list', 'Displays a list of available configuration files'
 	def list
@@ -10,7 +13,7 @@ class Guardian::Config < Thor
     	say_status :error, "No configuration files found.", :red
     	say_status :solution, "Use the guardian <config> <generate> wizard for assistance", :blue
     else	
-    	files.each { | f | say_status 'conf ', f, :yellow }
+    	files.each { | f | say_status :found, f, :yellow }
     end
 	end
 
@@ -26,15 +29,31 @@ class Guardian::Config < Thor
   		say_status :solution, "Searching for configuration files in #{Guardian::CONFIG_PATH}", :blue
   		invoke :list, nil, [] 
   	end
-	end
+
+		path = File.join(Guardian::CONFIG_PATH, filename)
+  	yaml = YAML::load(path)
+		yaml = {} if yaml.nil?
+
+		validate_project(yaml[PROJECT_NAME])
+
+
+  	end
 
 	private
 	
 	# Helper method to fetch a valid list of configuration files
 	def get_config_list
     files = Dir.entries(Guardian::CONFIG_PATH)
-    files.delete_if { | f | f.start_with?('.', Guardian::CONFIGURATION) }
-    files.delete_if { | f | f.end_with?('.yaml', '.yaml.example') == false }
+    files.delete_if { | f | f.start_with?('.') || f == Guardian::CONFIGURATION }
+    files.delete_if { | f | !f.end_with?('.yaml', '.yaml.example') }
     files
+	end
+
+	def validate_project(name)
+		if name.nil?
+			say_status :warn, "project name not set", :yellow
+		else
+		  say_status :success, "project name #{name} detected", :green
+		end
 	end
 end
