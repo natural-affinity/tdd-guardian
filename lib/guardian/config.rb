@@ -3,7 +3,7 @@ require 'yaml'
 
 class Guardian::Config < Thor
 	PROJECT_NAME = 'project'
-
+	GUARD_GEMS = 'guards'
 
 	desc 'list', 'Displays a list of available configuration files'
 	def list
@@ -25,7 +25,7 @@ class Guardian::Config < Thor
 
   	unless is_valid
   		say_status :error, "No configuration file named '#{filename}' found", :red
-  		say_status :solution, "Please use guardian <config> <list> for valid filenames"
+  		say_status :solution, "Please use guardian <config> <list> for valid filenames", :blue
   		say_status :solution, "Searching for configuration files in #{Guardian::CONFIG_PATH}", :blue
   		invoke :list, nil, []
 		  return
@@ -36,6 +36,7 @@ class Guardian::Config < Thor
 		yaml = {} if (yaml.nil? || yaml == false)
 
 		validate_project(yaml[PROJECT_NAME])
+		validate_guards(yaml[GUARD_GEMS])
  	end
 
 	private
@@ -60,6 +61,16 @@ class Guardian::Config < Thor
 			say_status :warn, "project name not set", :yellow
 		else
 		  say_status :success, "project name '#{name}' detected", :green
+		end
+	end
+
+	def validate_guards(guards)
+		if guards.nil?
+			say_status :warn, "no guards specified", :yellow
+		else
+			guards.each do | g |
+				say_status :success, "guard-#{g} detected", :yellow
+			end
 		end
 	end
 end

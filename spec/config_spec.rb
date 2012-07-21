@@ -102,6 +102,9 @@ describe Guardian::Config do
 			FileUtils.rm_f([config])
 			output.should_not =~ /No configuration file/
 		end
+	end
+
+	context "guardian config validate (file) -- '.yaml' format validation" do
 
 		it "should display a warning if the project name is not set" do
 			config = File.join(Guardian::CONFIG_PATH, 'katana.yaml')
@@ -129,7 +132,33 @@ describe Guardian::Config do
 			output.should =~ /project name 'katana' detected/
 		end
 
-	end
+		it "should display a warning no guards are specified" do
+			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
+			project = {'project' => nil}
+			guards = {'guards' => nil}
+			write_settings(project, guards, config)
 
+			options = ['config', 'validate', '-f=project_zero.yaml']
+			output = capture(:stdout) { Guardian::CLI.start(options) }
+			FileUtils.rm_f([config])
+			output.should =~ /no guards specified/
+		end
+
+		it "shoudl display a success message for each guard found" do
+			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
+			project = {'project' => nil}
+			guards = {'guards' => %w[bundler rspec]}
+			write_settings(project, guards, config)
+
+			options = ['config', 'validate', '-f=project_zero.yaml']
+			output = capture(:stdout) { Guardian::CLI.start(options) }
+			FileUtils.rm_f([config])
+			output.should =~ /guard-bundler detected/
+			output.should =~ /guard-rspec detected/
+		end
+
+		# TODO:: Compounded Errors
+		# TODO:: Compounded Success
+	end
 
 end
