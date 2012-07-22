@@ -6,6 +6,10 @@ describe Guardian::Config do
 
 	attr_accessor :cli
 
+	before(:all) do
+		@config = File.join(Guardian::CONFIG_PATH, 'test.yaml')
+	end
+
 	before(:each) do
 		@cli = Guardian::Config.new
 	end
@@ -107,9 +111,7 @@ describe Guardian::Config do
 	context "guardian config validate (file) -- '.yaml' format validation" do
 		it "should display a warning if the project name is not set" do
 			config = File.join(Guardian::CONFIG_PATH, 'katana.yaml')
-			project = {'project' => nil}
-			guards = {'guards' => nil}
-			write_settings(project, guards, config)
+			write_settings(nil, nil, nil, config)
 
 			options = ['config', 'validate', '-f=katana.yaml']
 			output = capture(:stdout) { Guardian::CLI.start(options) }
@@ -121,8 +123,7 @@ describe Guardian::Config do
 		it "should display a success message with the project name if found" do
 			config = File.join(Guardian::CONFIG_PATH, 'katana.yaml')
 			project = {'project' => 'katana'}
-			guards = {'guards' => nil}
-			write_settings(project, guards, config)
+			write_settings(project, nil, nil, config)
 
 			options = ['config', 'validate', '-f=katana.yaml']
 			output = capture(:stdout) { Guardian::CLI.start(options) }
@@ -133,9 +134,7 @@ describe Guardian::Config do
 
 		it "should display a warning no guards are specified" do
 			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
-			project = {'project' => nil}
-			guards = {'guards' => nil}
-			write_settings(project, guards, config)
+			write_settings(nil, nil, nil, config)
 
 			options = ['config', 'validate', '-f=project_zero.yaml']
 			output = capture(:stdout) { Guardian::CLI.start(options) }
@@ -145,9 +144,8 @@ describe Guardian::Config do
 
 		it "should display a success message for each guard found" do
 			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
-			project = {'project' => nil}
 			guards = {'guards' => %w[bundler rspec]}
-			write_settings(project, guards, config)
+			write_settings(nil, guards, nil, config)
 
 			options = ['config', 'validate', '-f=project_zero.yaml']
 			output = capture(:stdout) { Guardian::CLI.start(options) }
@@ -159,8 +157,7 @@ describe Guardian::Config do
 		it "should display compound status messages" do
 			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
 			project = {'project' => 'project_zero'}
-			guards = {'guards' => nil}
-			write_settings(project, guards, config)
+			write_settings(project, nil, nil, config)
 
 			options = ['config', 'validate', '-f=project_zero.yaml']
 			output = capture(:stdout) { Guardian::CLI.start(options) }
@@ -171,10 +168,7 @@ describe Guardian::Config do
 
 		it "should display a warning if no template is specified" do
 			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
-			project = {'project' => nil}
-			guards = {'guards' => nil}
-			template = {'template' => nil}
-			write_settings(project, guards, config, template)
+			write_settings(nil, nil, nil, config)
 
 			options = ['config', 'validate', '-f=project_zero']
 			output = capture(:stdout) { Guardian::CLI.start(options) }
@@ -185,10 +179,8 @@ describe Guardian::Config do
 
 		it "should display a success message if the 'custom' template is specified" do
 			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
-			project = {'project' => nil}
-			guards = {'guards' => nil}
 			template = {'template' => 'custom'}
-			write_settings(project, guards, config, template)
+			write_settings(nil, nil, template, config)
 
 			options = ['config', 'validate', '-f=project_zero']
 			output = capture(:stdout) { Guardian::CLI.start(options) }
@@ -199,10 +191,8 @@ describe Guardian::Config do
 
 		it "should display a success message if an unsupported template type is specified" do
 			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
-			project = {'project' => nil}
-			guards = {'guards' => nil}
 			template = {'template' => 'merb'}
-			write_settings(project, guards, config, template)
+			write_settings(nil, nil, template, config)
 
 			options = ['config', 'validate', '-f=project_zero']
 			output = capture(:stdout) { Guardian::CLI.start(options) }
