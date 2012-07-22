@@ -17,6 +17,20 @@ module GuardianSpecHelper
   	result
 	end
 
+	def create_capture_remove(std, options, file, settings = nil)
+		# Create
+		settings = {} if settings.nil?
+		write_settings(settings[:project], settings[:guards], settings[:template], file)
+
+		# Capture output
+		output = capture(std) { Guardian::CLI.start(options) }
+
+		# Remove
+		FileUtils.rm_f([file])
+
+		output
+	end
+
 	def write_settings(project, guards, template, file)
 		project = {'project' => nil} if project.nil?
 		template = {'template' => nil} if template.nil?

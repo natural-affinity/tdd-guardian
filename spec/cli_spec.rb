@@ -4,7 +4,11 @@ require_relative '../lib/guardian'
 describe Guardian::CLI do
 	include GuardianSpecHelper
 
-	attr_accessor :cli
+	attr_accessor :cli, :version
+
+	before(:all) do
+		@version = %r{Guardian version 0\.1\.31 \nCopyright \(C\) 2012 Rizwan Tejpar \n}
+	end
 
 	before(:each) do
 		@cli = Guardian::CLI.new
@@ -20,12 +24,12 @@ describe Guardian::CLI do
 	it "should display version details with <guardian> --version" do
 		options = %w[--version]
 		output = capture(:stdout) { Guardian::CLI.start(options) }
-		output.should =~ /Guardian version 0\.1\.27 \nCopyright \(C\) 2012 Rizwan Tejpar \n/
+		output.should =~ @version
 	end
 
 	it "should display version details with <guardian> version" do
 		output = capture(:stdout) { @cli.version }
-		output.should =~ /Guardian version 0\.1\.27 \nCopyright \(C\) 2012 Rizwan Tejpar \n/
+		output.should =~ @version
 	end
 
 end
