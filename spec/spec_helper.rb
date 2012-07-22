@@ -17,8 +17,8 @@ module GuardianSpecHelper
   	result
 	end
 
-	def write_settings(project, guards, file = 'config/settings.yaml')
-		config = project.merge(guards)
+	def write_settings(project, guards, file = 'config/settings.yaml', template = {'template' => nil})
+		config = project.merge(guards).merge(template)
 
 		File.delete(file) if File.exists?(file)
 		File.open(file, 'w') { |f| f.write(config.to_yaml) }

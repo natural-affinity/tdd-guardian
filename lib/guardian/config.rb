@@ -2,8 +2,9 @@ require 'thor'
 require 'yaml'
 
 class Guardian::Config < Thor
-	PROJECT_NAME = 'project'
-	GUARD_GEMS = 'guards'
+	PROJECT = 'project'
+	GUARDS = 'guards'
+	TEMPLATE = 'template'
 
 	desc 'list', 'Displays a list of available configuration files'
 	def list
@@ -26,7 +27,7 @@ class Guardian::Config < Thor
   	unless is_valid
   		say_status :error, "No configuration file named '#{filename}' found", :red
   		say_status :solution, "Please use guardian <config> <list> for valid filenames", :blue
-  		say_status :warn, "Searching for configuration files in #{Guardian::CONFIG_PATH}", :yellow
+  		say_status :info, "Searching for configuration files in #{Guardian::CONFIG_PATH}", :yellow
   		invoke :list, nil, []
 		  return
 		end
@@ -35,8 +36,9 @@ class Guardian::Config < Thor
 		yaml = YAML::load(File.open(path))
 		yaml = {} if (yaml.nil? || yaml == false)
 
-		validate_project(yaml[PROJECT_NAME])
-		validate_guards(yaml[GUARD_GEMS])
+		validate_project(yaml[PROJECT])
+		validate_guards(yaml[GUARDS])
+		validate_template(yaml[TEMPLATE])
  	end
 
 	private
@@ -60,7 +62,7 @@ class Guardian::Config < Thor
 		if name.nil?
 			say_status :warn, "project name not set", :yellow
 		else
-		  say_status :success, "project name '#{name}' detected", :green
+		  say_status :info, "project name '#{name}' detected", :green
 		end
 	end
 
@@ -68,7 +70,21 @@ class Guardian::Config < Thor
 		if guards.nil?
 			say_status :warn, "no guards specified", :yellow
 		else
-			guards.each { | g | say_status :success, "guard-#{g} detected", :yellow }
+			guards.each { | g | say_status :info, "guard-#{g} detected", :yellow }
+		end
+	end
+
+	def validate_template(template)
+		supported = 'custom'
+
+		if template.nil?
+			say_status :warn, "no project template type specified", :yellow
+		else
+			if template == supported
+				say_status :info, "project template type '#{supported}' detected", :yellow
+			else
+				say_status :warn, "unsupported template type '#{template}' detected", :yellow
+			end
 		end
 	end
 end

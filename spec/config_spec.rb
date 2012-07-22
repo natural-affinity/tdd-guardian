@@ -105,7 +105,6 @@ describe Guardian::Config do
 	end
 
 	context "guardian config validate (file) -- '.yaml' format validation" do
-
 		it "should display a warning if the project name is not set" do
 			config = File.join(Guardian::CONFIG_PATH, 'katana.yaml')
 			project = {'project' => nil}
@@ -168,6 +167,48 @@ describe Guardian::Config do
 			FileUtils.rm_f([config])
 			output.should =~ /project name 'project_zero' detected/
 			output.should =~ /no guards specified/
+		end
+
+		it "should display a warning if no template is specified" do
+			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
+			project = {'project' => nil}
+			guards = {'guards' => nil}
+			template = {'template' => nil}
+			write_settings(project, guards, config, template)
+
+			options = ['config', 'validate', '-f=project_zero']
+			output = capture(:stdout) { Guardian::CLI.start(options) }
+
+			FileUtils.rm_r([config])
+			output.should =~ /no project template type specified/
+		end
+
+		it "should display a success message if the 'custom' template is specified" do
+			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
+			project = {'project' => nil}
+			guards = {'guards' => nil}
+			template = {'template' => 'custom'}
+			write_settings(project, guards, config, template)
+
+			options = ['config', 'validate', '-f=project_zero']
+			output = capture(:stdout) { Guardian::CLI.start(options) }
+
+			FileUtils.rm_r([config])
+			output.should =~ /project template type 'custom' detected/
+		end
+
+		it "should display a success message if an unsupported template type is specified" do
+			config = File.join(Guardian::CONFIG_PATH, 'project_zero.yaml')
+			project = {'project' => nil}
+			guards = {'guards' => nil}
+			template = {'template' => 'merb'}
+			write_settings(project, guards, config, template)
+
+			options = ['config', 'validate', '-f=project_zero']
+			output = capture(:stdout) { Guardian::CLI.start(options) }
+
+			FileUtils.rm_r([config])
+			output.should =~ /unsupported template type 'merb' detected/
 		end
 
 	end
