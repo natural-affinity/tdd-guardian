@@ -2,6 +2,7 @@ require 'thor'
 require 'yaml'
 
 class Guardian::Config < Thor
+	ROOT = 'root'
 	PROJECT = 'project'
 	GUARDS = 'guards'
 	TEMPLATE = 'template'
@@ -37,8 +38,10 @@ class Guardian::Config < Thor
 		yaml = {} if (yaml.nil? || yaml == false)
 
 		validate_project(yaml[PROJECT])
-		validate_guards(yaml[GUARDS])
 		validate_template(yaml[TEMPLATE])
+		validate_root(yaml[ROOT])
+		validate_guards(yaml[GUARDS])
+
  	end
 
 	private
@@ -60,7 +63,7 @@ class Guardian::Config < Thor
 
 	def validate_project(name)
 		if name.nil?
-			say_status :warn, "project name not set", :yellow
+			say_status :warn, "project name not specified", :yellow
 		else
 		  say_status :info, "project name '#{name}' detected", :green
 		end
@@ -78,13 +81,21 @@ class Guardian::Config < Thor
 		supported = 'custom'
 
 		if template.nil?
-			say_status :warn, "no project template type specified", :yellow
+			say_status :warn, "project template type not specified", :yellow
 		else
 			if template == supported
 				say_status :info, "project template type '#{supported}' detected", :yellow
 			else
-				say_status :warn, "unsupported template type '#{template}' detected", :yellow
+				say_status :warn, "project template type '#{template}' is unsupported", :yellow
 			end
+		end
+	end
+
+	def validate_root(root)
+		if root.nil? || File.exists?(root)
+			say_status :warn, "project installation directory does not exist", :yellow
+		else
+			say_status :info, "project installation root #{File.expand_path(root)} detected"
 		end
 	end
 end

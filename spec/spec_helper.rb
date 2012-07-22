@@ -20,7 +20,13 @@ module GuardianSpecHelper
 	def create_capture_remove(std, options, file, settings = nil)
 		# Create
 		settings = {} if settings.nil?
-		write_settings(settings[:project], settings[:guards], settings[:template], file)
+
+		write_settings(settings[:project],
+									 settings[:guards],
+									 settings[:template],
+									 settings[:root],
+									 file)
+
 
 		# Capture output
 		output = capture(std) { Guardian::CLI.start(options) }
@@ -31,12 +37,13 @@ module GuardianSpecHelper
 		output
 	end
 
-	def write_settings(project, guards, template, file)
+	def write_settings(project, guards, template, root, file)
 		project = {'project' => nil} if project.nil?
 		template = {'template' => nil} if template.nil?
 		guards = {'guards' => nil} if guards.nil?
+		root = {'root' => nil} if root.nil?
 
-		config = project.merge(guards).merge(template)
+		config = project.merge(guards).merge(template).merge(root)
 
 		File.delete(file) if File.exists?(file)
 		File.open(file, 'w') { |f| f.write(config.to_yaml) }

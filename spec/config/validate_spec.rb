@@ -59,7 +59,7 @@ describe Guardian::Config do
 	context "guardian config validate (file) -- invalid .yaml values" do
 		it "should display a warning if the project name is not set" do
 			output = create_capture_remove(:stdout, @options, @config, nil)
-			output.should =~ /project name not set/
+			output.should =~ /project name not specified/
 		end
 
 		it "should display a warning no guards are specified" do
@@ -69,13 +69,18 @@ describe Guardian::Config do
 
 		it "should display a warning if no template is specified" do
 			output = create_capture_remove(:stdout, @options, @config, nil)
-			output.should =~ /no project template type specified/
+			output.should =~ /project template type not specified/
 		end
 
 		it "should display a warning if an unsupported template type is specified" do
 			settings = {:template => {'template' => 'merb'}}
 			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.should =~ /unsupported template type 'merb' detected/
+			output.should =~ /project template type 'merb' is unsupported/
+		end
+
+		it "should display a warning if a project installation root is not specified" do
+			output = create_capture_remove(:stdout, @options, @config, nil)
+			output.should =~ /project installation directory does not exist/
 		end
 
 		it "should display compound status messages" do
@@ -83,7 +88,7 @@ describe Guardian::Config do
 			output = create_capture_remove(:stdout, @options, @config, settings)
 			output.should =~ /project name 'project_zero' detected/
 			output.should =~ /no guards specified/
-			output.should =~ /no project template type specified/
+			output.should =~ /project template type not specified/
 		end
 	end
 
@@ -105,6 +110,13 @@ describe Guardian::Config do
 			settings = {:template => {'template' => 'custom'}}
 			output = create_capture_remove(:stdout, @options, @config, settings)
 			output.should =~ /project template type 'custom' detected/
+		end
+
+		it "should display a success message with the path if a root is specified" do
+			settings = {:root => {'root' => '~/workspace'}}
+			output = create_capture_remove(:stdout, @options, @config, settings)
+			output.should =~ /project installation root \/Users\/zerocool\/workspace detected/
+
 		end
 	end
 
