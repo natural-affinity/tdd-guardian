@@ -2,7 +2,7 @@ module Guardian
 
 	# Internal Application Information
 	NAME = 'Guardian'
-	VERSION = '0.1.34'
+	VERSION = '0.1.35'
 	COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'	
 	CONFIGURATION = 'settings.yaml'
 

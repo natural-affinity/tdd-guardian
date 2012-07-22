@@ -135,6 +135,17 @@ describe Guardian::Config do
 			output.should =~ /guard-rspec detected/
 		end
 
+		it "should display a single success message for guard if all of its patterns are valid" do
+			single_guards = [{'rspec' => {'patterns' => [{'watch' => 'watch a', 'block' => 'block a'},
+																									 {'watch' => 'watch b', 'block' => 'block b'}]}},
+											 {'bundler' => {'patterns' => [{'watch' => 'watch c', 'block' => 'block c'}]}}]
+
+			settings = {:guards => {'guards' => %w[bundler rspec]}, :single_guards => single_guards}
+			output = create_capture_remove(:stdout, @options, @config, settings)
+			output.include?("guard-rspec has valid patterns")
+			output.include?("guard\-bundler has valid patterns")
+		end
+
 	end
 
 end

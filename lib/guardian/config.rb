@@ -113,16 +113,17 @@ class Guardian::Config < Thor
 
 	def has_pattern(name, patterns)
 		return say_status(:warn, "guard-#{name} has no watch and block pattern(s) specified", :yellow) if patterns.nil?
-
+		all_valid = true
 
 		patterns.each do | pattern |
-			watch = pattern['watch'].nil? ? "invalid watch" : nil
-		  block = pattern['block'].nil? ? "invalid block" : nil
 
-			if watch.nil? || block.nil?
+			if pattern['watch'].nil? || pattern['block'].nil?
 				say_status :warn, "guard-#{name} has an invalid pattern: watch='#{pattern['watch']}' block='#{pattern['block']}'", :yellow
+				all_valid = false
 			end
 		end
+
+		say_status :info, "guard-#{name} has valid patterns", :green
 	end
 
 end
