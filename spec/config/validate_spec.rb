@@ -90,6 +90,23 @@ describe Guardian::Config do
 			output.should =~ /no guards specified/
 			output.should =~ /project template type not specified/
 		end
+
+		it "should display a warning for each guard for which no patterns(watch and block) are specified" do
+			settings = {:guards => {'guards' => %w[bundler rspec]}, :single_guards => [{'rspec' => nil}]}
+
+			output = create_capture_remove(:stdout, @options, @config, settings)
+			output.should =~ /guard\-bundler has no watch and block pattern\(s\) specified/
+			output.should =~ /guard\-rspec has no watch and block pattern\(s\) specified/
+		end
+
+		it "should display a warning for each guard for which a partial(watch or block) pattern is specified" do
+			single_guards = [{'rspec' => {'patterns' => [{'watch' => 'spec'}]}},
+											 {'bundler' => {'patterns' => [{'block' => 'spec'}]}}]
+			settings = {:guards => {'guards' => %w[bundler rspec]}, :single_guards => single_guards}
+			output = create_capture_remove(:stdout, @options, @config, settings)
+			output.should =~ /guard\-rspec has an invalid pattern: watch='spec' block=''/
+			output.should =~ /guard\-bundler has an invalid pattern: watch='' block='spec'/
+		end
 	end
 
 	context "guardian config validate (file) -- valid .yaml values" do
@@ -97,13 +114,6 @@ describe Guardian::Config do
 			settings = {:project => {'project' => 'katana'}}
 			output = create_capture_remove(:stdout, @options, @config, settings)
 			output.should =~ /project name 'katana' detected/
-		end
-
-		it "should display a success message for each guard found" do
-			settings = {:guards => {'guards' => %w[bundler rspec]}}
-			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.should =~ /guard-bundler detected/
-			output.should =~ /guard-rspec detected/
 		end
 
 		it "should display a success message if the 'custom' template is specified" do
@@ -116,8 +126,15 @@ describe Guardian::Config do
 			settings = {:root => {'root' => '~/workspace'}}
 			output = create_capture_remove(:stdout, @options, @config, settings)
 			output.should =~ /project installation root \/Users\/zerocool\/workspace detected/
-
 		end
+
+		it "should display a success message for each guard found" do
+			settings = {:guards => {'guards' => %w[bundler rspec]}}
+			output = create_capture_remove(:stdout, @options, @config, settings)
+			output.should =~ /guard-bundler detected/
+			output.should =~ /guard-rspec detected/
+		end
+
 	end
 
 end

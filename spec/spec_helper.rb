@@ -25,6 +25,7 @@ module GuardianSpecHelper
 									 settings[:guards],
 									 settings[:template],
 									 settings[:root],
+									 settings[:single_guards],
 									 file)
 
 
@@ -37,13 +38,15 @@ module GuardianSpecHelper
 		output
 	end
 
-	def write_settings(project, guards, template, root, file)
+	def write_settings(project, guards, template, root, single_guards, file)
 		project = {'project' => nil} if project.nil?
 		template = {'template' => nil} if template.nil?
 		guards = {'guards' => nil} if guards.nil?
 		root = {'root' => nil} if root.nil?
+		single_guards = [] if single_guards.nil?
 
 		config = project.merge(guards).merge(template).merge(root)
+		single_guards.each { |g| config = config.merge(g) } unless single_guards.empty?
 
 		File.delete(file) if File.exists?(file)
 		File.open(file, 'w') { |f| f.write(config.to_yaml) }

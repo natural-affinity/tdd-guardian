@@ -6,6 +6,9 @@ class Guardian::Config < Thor
 	PROJECT = 'project'
 	GUARDS = 'guards'
 	TEMPLATE = 'template'
+	PATTERNS = 'patterns'
+	WATCH_PATTERN = 'watch'
+	BLOCK_PATTERN = 'block'
 
 	desc 'list', 'Displays a list of available configuration files'
 	def list
@@ -41,6 +44,7 @@ class Guardian::Config < Thor
 		validate_template(yaml[TEMPLATE])
 		validate_root(yaml[ROOT])
 		validate_guards(yaml[GUARDS])
+		validate_guard_patterns(yaml[GUARDS], yaml) unless yaml[GUARDS].nil?
 
  	end
 
@@ -73,7 +77,7 @@ class Guardian::Config < Thor
 		if guards.nil?
 			say_status :warn, "no guards specified", :yellow
 		else
-			guards.each { | g | say_status :info, "guard-#{g} detected", :yellow }
+			guards.each { | g | say_status :info, "guard-#{g} detected", :green}
 		end
 	end
 
@@ -84,7 +88,7 @@ class Guardian::Config < Thor
 			say_status :warn, "project template type not specified", :yellow
 		else
 			if template == supported
-				say_status :info, "project template type '#{supported}' detected", :yellow
+				say_status :info, "project template type '#{supported}' detected", :green
 			else
 				say_status :warn, "project template type '#{template}' is unsupported", :yellow
 			end
@@ -95,7 +99,30 @@ class Guardian::Config < Thor
 		if root.nil? || File.exists?(root)
 			say_status :warn, "project installation directory does not exist", :yellow
 		else
-			say_status :info, "project installation root #{File.expand_path(root)} detected"
+			say_status :info, "project installation root #{File.expand_path(root)} detected", :green
 		end
 	end
+
+	def validate_guard_patterns(guards, yaml)
+		guards.each do | name, value |
+
+			patterns = yaml[name].nil? ? nil : yaml[name]['patterns']
+			has_pattern(name, patterns)
+		end
+	end
+
+	def has_pattern(name, patterns)
+		return say_status(:warn, "guard-#{name} has no watch and block pattern(s) specified", :yellow) if patterns.nil?
+
+
+		patterns.each do | pattern |
+			watch = pattern['watch'].nil? ? "invalid watch" : nil
+		  block = pattern['block'].nil? ? "invalid block" : nil
+
+			if watch.nil? || block.nil?
+				say_status :warn, "guard-#{name} has an invalid pattern: watch='#{pattern['watch']}' block='#{pattern['block']}'", :yellow
+			end
+		end
+	end
+
 end
