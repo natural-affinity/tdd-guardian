@@ -7,7 +7,7 @@ describe Guardian::CLI do
 	attr_accessor :cli, :version
 
 	before(:all) do
-		@version = %r{Guardian version 0\.1\.31 \nCopyright \(C\) 2012 Rizwan Tejpar \n}
+		@version = %r{Guardian version 0\.1\.32 \nCopyright \(C\) 2012 Rizwan Tejpar \n}
 	end
 
 	before(:each) do
