@@ -12,29 +12,30 @@ describe Guardian::Config do
 
 	before(:each) do
 		@cli = Guardian::Config.new
-		@options = %w[config validate]
+		@options = %w[config validate -f=test]
 	end
 
 	context "guardian config validate (no file)" do
 		it "should require a --file option" do
+			@options.delete_at(2)
 			output = capture(:stderr) { Guardian::CLI.start(@options) }
 			output.should =~ /No value provided for required options '--file'/
 		end
 
 		it "should allow a -f alias for --file" do
-			@options.push('-f')
+			@options[2] = '-f'
 			output = capture(:stderr) { Guardian::CLI.start(@options) }
 			output.should =~ /No value provided for required options '--file'/
 		end
 
 		it "should display a warning if the filename is empty" do
-			@options.push('--file=')
+			@options[2] = '--file='
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 			output.include?("No configuration file named '' found").should == true
 		end
 
 		it "should display a warning and not allow paths in the filename" do
-			@options.push('--file=/blah')
+			@options[2] = '--file=/blah'
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 			output.include?("No configuration file named '/blah.yaml' found").should == true
 		end
@@ -42,7 +43,7 @@ describe Guardian::Config do
 		it "should invoke guardian <config> <list> if no files found" do
 			FileUtils.touch(@config)
 
-			@options.push('--file=')
+			@options[2] = '--file='
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 
 			FileUtils.rm_f([@config])
@@ -54,7 +55,7 @@ describe Guardian::Config do
 		it "should auto add the yaml extension to the specified config file name" do
 			FileUtils.touch(@config)
 
-			@options.push('-f=test')
+			@options[2] = '-f=test'
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 
 			FileUtils.rm_f([@config])
@@ -66,7 +67,6 @@ describe Guardian::Config do
 		it "should display a warning if the project name is not set" do
 			write_settings(nil, nil, nil, config)
 
-			@options.push('-f=test.yaml')
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 
 			FileUtils.rm_f([@config])
@@ -77,7 +77,6 @@ describe Guardian::Config do
 			project = {'project' => 'katana'}
 			write_settings(project, nil, nil, @config)
 
-			@options.push('-f=test.yaml')
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 
 			FileUtils.rm_f([@config])
@@ -87,7 +86,6 @@ describe Guardian::Config do
 		it "should display a warning no guards are specified" do
 			write_settings(nil, nil, nil, @config)
 
-			options.push('-f=test.yaml')
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 			FileUtils.rm_f([@config])
 			output.should =~ /no guards specified/
@@ -97,7 +95,6 @@ describe Guardian::Config do
 			guards = {'guards' => %w[bundler rspec]}
 			write_settings(nil, guards, nil, config)
 
-			@options.push('-f=test.yaml')
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 			FileUtils.rm_f([@config])
 			output.should =~ /guard-bundler detected/
@@ -108,7 +105,6 @@ describe Guardian::Config do
 			project = {'project' => 'project_zero'}
 			write_settings(project, nil, nil, @config)
 
-			@options.push('-f=test.yaml')
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 			FileUtils.rm_f([@config])
 			output.should =~ /project name 'project_zero' detected/
@@ -118,7 +114,7 @@ describe Guardian::Config do
 		it "should display a warning if no template is specified" do
 			write_settings(nil, nil, nil, config)
 
-			@options.push('-f=test')
+
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 
 			FileUtils.rm_r([config])
@@ -129,7 +125,6 @@ describe Guardian::Config do
 			template = {'template' => 'custom'}
 			write_settings(nil, nil, template, @config)
 
-			@options.push('-f=test')
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 
 			FileUtils.rm_r([@config])
@@ -140,7 +135,6 @@ describe Guardian::Config do
 			template = {'template' => 'merb'}
 			write_settings(nil, nil, template, @config)
 
-			@options.push('-f=test')
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
 
 			FileUtils.rm_r([@config])
