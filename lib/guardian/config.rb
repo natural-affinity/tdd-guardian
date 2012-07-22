@@ -123,7 +123,7 @@ class Guardian::Config < Thor
 			end
 		end
 
-		say_status :info, "guard-#{name} has valid patterns", :green
+		say_status :info, "guard-#{name} has valid patterns", :green if all_valid
 	end
 
 end
