@@ -84,12 +84,22 @@ describe Guardian::Reader do
 		end
 
 		it "should return the patterns for each guard if set" do
-
-
+			single_guards = [{'rspec' => {'patterns' => [{'watch' => 'spec', 'block' => 'm'}]}},
+											 {'livereload' => {'patterns' => nil}}]
+			settings = {:guards => {'guards' => %w[bundler rspec livereload]}, :single_guards => single_guards}
+			reader = write_read_remove(settings)
+			reader.patterns['rspec'][0].should == {'watch' => 'spec', 'block' => 'm'}
+			reader.patterns['livereload'].should == nil
 		end
 
 		it "should only return the pattern for each guard if a watch or watch and block is set" do
-
+			single_guards = [{'rspec' => {'patterns' => [{'watch' => 'spec', 'block' => 'm'}]}},
+											 {'bundler' => {'patterns' => [{'block' => 'spec'}]}}]
+			settings = {:guards => {'guards' => %w[bundler rspec livereload]}, :single_guards => single_guards}
+			reader = write_read_remove(settings)
+			reader.patterns['bundler'].should == nil
+			reader.patterns['rspec'][0].should == {'watch' => 'spec', 'block' => 'm'}
+			reader.patterns['livereload'].should == nil
 		end
 
 
@@ -99,6 +109,8 @@ describe Guardian::Reader do
 			reader.guards.nil?.should == true
 			reader.template.nil?.should == true
 			reader.root.nil?.should == true
+
+			reader.patterns == nil
 		end
 
 	end

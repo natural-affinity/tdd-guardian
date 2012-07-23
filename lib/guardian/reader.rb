@@ -2,7 +2,7 @@ require 'yaml'
 
 class Guardian::Reader
 
-	attr_reader :available, :file, :data, :project, :template, :root, :guards
+	attr_reader :available, :file, :data, :project, :template, :root, :guards, :patterns
 
 	def initialize(file = '')
 		@file = get_filename(file)
@@ -40,5 +40,24 @@ class Guardian::Reader
 		@guards = @data['guards']
 		@template = @data['template'] if %w[general].include?(@data['template'])
 		@root = @data['root'] if File.exist?(@data['root']) unless @data['root'].nil? || File.file?(@data['root'])
+		@patterns = parse_patterns(@guards)
 	end
+
+	def parse_patterns(guards)
+		patterns = {}
+
+		unless guards.nil?
+
+			guards.each do | g |
+				guard_pattern = nil
+				guard_pattern = @data[g]['patterns'] unless @data[g].nil?
+				guard_pattern.delete_if { | p | p['watch'].nil?} unless guard_pattern.nil?
+
+				patterns[g] = guard_pattern unless guard_pattern.nil? || guard_pattern.empty?
+			end
+		end
+
+		patterns.empty? ? nil : patterns
+	end
+
 end
