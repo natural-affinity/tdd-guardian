@@ -48,14 +48,6 @@ describe Guardian::Config do
 		end
 	end
 
-	context "guardian config validate (file)" do
-		it "should auto add the yaml extension to the specified config file name" do
-			@options[2] = '-f=test'
-			output = create_capture_remove(:stdout, @options, @config, nil)
-			output.should_not =~ /No configuration file/
-		end
-	end
-
 	context "guardian config validate (file) -- invalid .yaml values" do
 		it "should display a warning if the project name is not set" do
 			output = create_capture_remove(:stdout, @options, @config, nil)
@@ -116,10 +108,10 @@ describe Guardian::Config do
 			output.should =~ /project name 'katana' detected/
 		end
 
-		it "should display a success message if the 'custom' template is specified" do
-			settings = {:template => {'template' => 'custom'}}
+		it "should display a success message if the 'general' template is specified" do
+			settings = {:template => {'template' => 'general'}}
 			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.should =~ /project template type 'custom' detected/
+			output.should =~ /project template type 'general' detected/
 		end
 
 		it "should display a success message with the path if a root is specified" do

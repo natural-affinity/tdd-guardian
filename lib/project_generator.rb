@@ -12,7 +12,7 @@ class ProjectGenerator < Thor::Group
   end
 
 	def read_project_config
-		@reader = ConfigurationReader.new
+		@reader = Reader.new
 	end
 
 	def create_project_dir

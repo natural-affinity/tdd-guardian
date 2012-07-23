@@ -12,7 +12,7 @@ describe ProjectGenerator do
 	end
 
 	it "should invoke the config reader to load settings" do	
-		@generator.read_project_config.is_a?(ConfigurationReader).should == true
+		@generator.read_project_config.is_a?(Reader).should == true
 	end
 
 	it "should create an empty project directory if does not exist" do

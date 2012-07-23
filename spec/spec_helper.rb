@@ -48,8 +48,12 @@ module GuardianSpecHelper
 		config = project.merge(guards).merge(template).merge(root)
 		single_guards.each { |g| config = config.merge(g) } unless single_guards.empty?
 
+		write_to_yaml(file, config)
+	end
+
+	def write_to_yaml(file, data)
 		File.delete(file) if File.exists?(file)
-		File.open(file, 'w') { |f| f.write(config.to_yaml) }
+		File.open(file, 'w') { |f| f.write(data.to_yaml) }
 	end
 
 	def create_folder(path)

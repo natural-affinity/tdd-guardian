@@ -82,7 +82,7 @@ class Guardian::Config < Thor
 	end
 
 	def validate_template(template)
-		supported = 'custom'
+		supported = 'general'
 
 		if template.nil?
 			say_status :warn, "project template type not specified", :yellow
