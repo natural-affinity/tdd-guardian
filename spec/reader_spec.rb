@@ -100,8 +100,9 @@ describe Guardian::Reader do
 			reader.patterns['bundler'].should == nil
 			reader.patterns['rspec'][0].should == {'watch' => 'spec', 'block' => 'm'}
 			reader.patterns['livereload'].should == nil
-		end
 
+			reader.errors['livereload'].should == nil
+		end
 
 		it "should return nil for any value not set" do
 			reader = write_read_remove({})
@@ -109,10 +110,23 @@ describe Guardian::Reader do
 			reader.guards.nil?.should == true
 			reader.template.nil?.should == true
 			reader.root.nil?.should == true
-
 			reader.patterns == nil
 		end
+	end
 
+	context "Error handling upon parse" do
+		it "should store an error for each parsing error encountered" do
+			reader = write_read_remove({})
+			reader.errors['project'].should == true
+			reader.errors['template'].should == true
+			reader.errors['root'].should == true
+			reader.errors['guards'].should == true
+		end
+
+		it "should not store an error if no pattern was set for a guard" do
+			reader = write_read_remove({})
+			reader.errors['patterns'].should == nil
+		end
 	end
 
 end
