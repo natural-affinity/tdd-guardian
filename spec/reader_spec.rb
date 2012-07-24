@@ -117,10 +117,10 @@ describe Guardian::Reader do
 	context "Error handling upon parse" do
 		it "should store an error for each parsing error encountered" do
 			reader = write_read_remove({})
-			reader.errors['project'].should == true
-			reader.errors['template'].should == true
-			reader.errors['root'].should == true
-			reader.errors['guards'].should == true
+			reader.errors['project'].should_not == nil
+			reader.errors['template'].should_not == nil
+			reader.errors['root'].should_not == nil
+			reader.errors['guards'].should_not == nil
 		end
 
 		it "should not store an error if no pattern was set for a guard" do

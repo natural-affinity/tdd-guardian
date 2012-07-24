@@ -31,7 +31,7 @@ describe Guardian::Config do
 		it "should display a warning if the filename is empty" do
 			@options[2] = '--file='
 			output = capture(:stdout) { Guardian::CLI.start(@options) }
-			output.include?("No configuration file named '' found").should == true
+			output.include?("No configuration file named '.yaml' found").should == true
 		end
 
 		it "should display a warning and not allow paths in the filename" do
@@ -54,20 +54,20 @@ describe Guardian::Config do
 			output.should =~ /project name not specified/
 		end
 
-		it "should display a warning no guards are specified" do
+		it "should display a warning if no guards are specified" do
 			output = create_capture_remove(:stdout, @options, @config, nil)
 			output.should =~ /no guards specified/
 		end
 
 		it "should display a warning if no template is specified" do
 			output = create_capture_remove(:stdout, @options, @config, nil)
-			output.should =~ /project template type not specified/
+			output.should =~ /project template type is unsupported/
 		end
 
 		it "should display a warning if an unsupported template type is specified" do
 			settings = {:template => {'template' => 'merb'}}
 			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.should =~ /project template type 'merb' is unsupported/
+			output.should =~ /project template type is unsupported/
 		end
 
 		it "should display a warning if a project installation root is not specified" do
@@ -80,24 +80,15 @@ describe Guardian::Config do
 			output = create_capture_remove(:stdout, @options, @config, settings)
 			output.should =~ /project name 'project_zero' detected/
 			output.should =~ /no guards specified/
-			output.should =~ /project template type not specified/
+			output.should =~ /project template type is unsupported/
 		end
 
-		it "should display a warning for each guard for which no patterns(watch and block) are specified" do
-			settings = {:guards => {'guards' => %w[bundler rspec]}, :single_guards => [{'rspec' => nil}]}
-
-			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.should =~ /guard\-bundler has no watch and block pattern\(s\) specified/
-			output.should =~ /guard\-rspec has no watch and block pattern\(s\) specified/
-		end
-
-		it "should display a warning for each guard for which a partial(watch or block) pattern is specified" do
+		it "should display a warning for each guard for which a partial(block only) pattern is specified" do
 			single_guards = [{'rspec' => {'patterns' => [{'watch' => 'spec'}]}},
 											 {'bundler' => {'patterns' => [{'block' => 'spec'}]}}]
 			settings = {:guards => {'guards' => %w[bundler rspec]}, :single_guards => single_guards}
 			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.should =~ /guard\-rspec has an invalid pattern: watch='spec' block=''/
-			output.should =~ /guard\-bundler has an invalid pattern: watch='' block='spec'/
+			output.include?("guard-bundler has invalid pattern(s)").should == true
 		end
 	end
 
@@ -117,14 +108,15 @@ describe Guardian::Config do
 		it "should display a success message with the path if a root is specified" do
 			settings = {:root => {'root' => '~/workspace'}}
 			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.should =~ /project installation root \/Users\/zerocool\/workspace detected/
+
+			output.should =~ /project installation directory '\/Users\/zerocool\/workspace' detected/
 		end
 
 		it "should display a success message for each guard found" do
 			settings = {:guards => {'guards' => %w[bundler rspec]}}
 			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.should =~ /guard-bundler detected/
-			output.should =~ /guard-rspec detected/
+			output.include?("guard-bundler detected").should == true
+			output.include?("guard-rspec detected").should == true
 		end
 
 		it "should display a single success message for guard if all of its patterns are valid" do
@@ -134,8 +126,8 @@ describe Guardian::Config do
 
 			settings = {:guards => {'guards' => %w[bundler rspec]}, :single_guards => single_guards}
 			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.include?("guard-rspec has valid patterns")
-			output.include?("guard\-bundler has valid patterns")
+			output.include?("guard-rspec has 'valid patterns'")
+			output.include?("guard-bundler has valid patterns")
 		end
 
 	end
