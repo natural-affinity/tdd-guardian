@@ -32,16 +32,16 @@ class Guardian::Config < Thor
 		display_status('project template type', reader.template, reader.errors[Guardian::Reader::TEMPLATE])
 		display_status('project installation directory', reader.root, reader.errors[Guardian::Reader::ROOT])
 		display_status('guard', reader.guards, reader.errors[Guardian::Reader::GUARDS])
-
-		if reader.guards != nil
-			reader.guards.each do | g |
-				value = reader.errors[g] == nil ? 'valid patterns' : nil
-				display_status("guard-#{g}", value, "guard-#{g} #{reader.errors[g]}")
-			end
-		end
+		display_pattern_status(reader.guards, reader.errors)
 	end
 
 	private
+
+	def display_pattern_status(guards, errors)
+		guards.each do | g |
+			display_status("guard-#{g}", errors[g] == nil ? 'valid patterns' : nil, "guard-#{g} #{errors[g]}")
+		end unless guards.nil?
+	end
 
 	def display_status(start, value, error)
 		state = error ? :warn : :info
