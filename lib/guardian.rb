@@ -2,7 +2,7 @@ module Guardian
 
 	# Internal Application Information
 	NAME = 'Guardian'
-	VERSION = '0.1.41'
+	VERSION = '0.1.42'
 	COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'	
 	CONFIGURATION = 'settings.yaml'
 
@@ -15,7 +15,6 @@ module Guardian
 	# Supported
 	SUPPORTED_TEMPLATES = %w[general]
 	SUPPORTED_CONFIG_EXTENSIONS = %w[.yaml .yaml.example]
-
 
 	# Load Guardian Classes
 	autoload :Reader, "#{ROOT}/lib/guardian/reader"

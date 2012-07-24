@@ -33,27 +33,13 @@ class Guardian::Config < Thor
 		display_status('project installation directory', reader.root, reader.errors[Guardian::Reader::ROOT])
 		display_status('guard', reader.guards, reader.errors[Guardian::Reader::GUARDS])
 
-
 		if reader.guards != nil
-
 			reader.guards.each do | g |
-				value = nil
-				value = 'valid patterns' if reader.errors[g].nil?
+				value = reader.errors[g] == nil ? 'valid patterns' : nil
 				display_status("guard-#{g}", value, "guard-#{g} #{reader.errors[g]}")
 			end
 		end
 	end
-
-		#unless reader.guards.nil?
-		#	reader.guards.each do | g |
-		#
-		#		unless reader.errors[g].nil?
-		#			display_status("guard-#{g} has pattern", reader.patterns[g], reader.has_errors?(Guardian::Reader::PATTERNS))
-		#		else
-		#			#display_status("guard-#{g} pattern", reader.patterns[g], false)
-		#		end
-		#	end
-
 
 	private
 
@@ -70,5 +56,4 @@ class Guardian::Config < Thor
 			say_status state, message, color
 		end
 	end
-
 end

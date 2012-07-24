@@ -34,10 +34,6 @@ class Guardian::Reader
 		@available.include?(@file)
 	end
 
-	def has_errors?(attr = nil)
-		attr.nil? ? !@errors.empty? : @errors[attr]
-	end
-
 	private
 
 	def load
