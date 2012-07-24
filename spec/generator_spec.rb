@@ -1,11 +1,11 @@
 require 'spec_helper'
-require_relative '../lib/project_generator'
+require_relative '../lib/guardian'
 
-describe ProjectGenerator do
+describe Guardian::Generator do
 	include GuardianSpecHelper
 
 	before(:each) do		
-		@generator = ProjectGenerator.new
+		@generator = Guardian::Generator.new
 		@project = @generator.read_project_config.project
   	
   	delete_folder(@project)
@@ -27,7 +27,7 @@ describe ProjectGenerator do
 		@generator.create_project_dir
 		
 		options = ['--clean']
-		output = capture(:stdout){ProjectGenerator.start(options)}
+		output = capture(:stdout){Guardian::Generator.start(options)}
 		output.include?('remove').should == true
 		output.include?('create').should == true
 	end
@@ -36,7 +36,7 @@ describe ProjectGenerator do
 		options = ['--target=tmp']
 		folder = File.join('tmp', @project)
 		
-		ProjectGenerator.start(options)
+		Guardian::Generator.start(options)
 		File.exists?(folder).should == true
 		delete_folder(folder)
 	end

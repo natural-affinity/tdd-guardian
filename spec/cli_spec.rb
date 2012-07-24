@@ -7,7 +7,7 @@ describe Guardian::CLI do
 	attr_accessor :cli, :version
 
 	before(:all) do
-		@version = %r{Guardian version 0\.1\.43 \nCopyright \(C\) 2012 Rizwan Tejpar \n}
+		@version = %r{Guardian version 0\.1\.44 \nCopyright \(C\) 2012 Rizwan Tejpar \n}
 	end
 
 	before(:each) do
@@ -19,6 +19,7 @@ describe Guardian::CLI do
 		output.should =~ /guardian help/
 		output.should =~ /guardian --version/
 		output.should =~ /guardian config/
+		output.should =~ /guardian generate/
 	end
 
 	it "should display version details with <guardian> --version" do
