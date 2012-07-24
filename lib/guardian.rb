@@ -2,7 +2,7 @@ module Guardian
 
 	# Internal Application Information
 	NAME = 'Guardian'
-	VERSION = '0.1.44'
+	VERSION = '0.1.45'
 	COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'	
 	CONFIGURATION = 'settings.yaml'
 
@@ -19,6 +19,6 @@ module Guardian
 	# Load Guardian Classes
 	autoload :Reader, "#{ROOT}/lib/guardian/reader"
 	autoload :Config, "#{ROOT}/lib/guardian/config"
-	autoload :Generator, "#{ROOT}/lib/guardian/generator"
+	autoload :Generate, "#{ROOT}/lib/guardian/generate"
 	autoload :CLI, "#{ROOT}/lib/guardian/cli"
 end

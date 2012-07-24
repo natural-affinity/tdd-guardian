@@ -7,7 +7,7 @@ class Guardian::CLI < Thor
 	subcommand 'config', Guardian::Config
 
 	desc 'generate', 'Project generation based on specified config and templates'
-	subcommand 'generate', Guardian::Generator
+	subcommand 'generate', Guardian::Generate
 
 	desc '--version', 'Displays guardian application version details'
 	def version
