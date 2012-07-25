@@ -38,6 +38,13 @@ module GuardianSpecHelper
 		output
 	end
 
+	def run_cli(klass, options, command)
+		cli = klass.new
+		cli.options = options
+		cli.send(command)
+		cli
+	end
+
 	def write_settings(project, guards, template, root, single_guards, file)
 		project = {'project' => nil} if project.nil?
 		template = {'template' => nil} if template.nil?
@@ -64,4 +71,15 @@ module GuardianSpecHelper
 	def delete_folder(path)
 		FileUtils.rm_rf(path) if File.exists?(path)
 	end
+
+	def create_valid_config(file)
+		project = {'project' => 'test'}
+		template = {'template' => 'general'}
+		guards = {'guards' => %w[bundler rspec cucumber]}
+		root = {'root' => '~/workspace'}
+		single_guards = nil
+
+		write_settings(project, guards, template, root, single_guards, file)
+	end
+
 end

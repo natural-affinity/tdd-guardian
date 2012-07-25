@@ -34,6 +34,10 @@ class Guardian::Reader
 		@available.include?(@file)
 	end
 
+	def has_errors?
+		!@errors.empty?
+	end
+
 	private
 
 	def load

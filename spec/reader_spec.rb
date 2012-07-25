@@ -127,6 +127,14 @@ describe Guardian::Reader do
 			reader = write_read_remove({})
 			reader.errors['patterns'].should == nil
 		end
+
+		it "should feature a convenience method to check if there are any errors" do
+			reader = write_read_remove({})
+			reader.has_errors?.should == true
+
+			reader = Guardian::Reader.new
+			reader.has_errors?.should == false
+		end
 	end
 
 end

@@ -1,3 +1,5 @@
 ---
-project: conan-the-barbarian
-template:
+projects:
+  - project: {config: => '}
+  - project: {config: => 'zero.yaml', location: => 'test.dir'}
+

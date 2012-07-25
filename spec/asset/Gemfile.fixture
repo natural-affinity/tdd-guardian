@@ -1,0 +1,9 @@
+source 'http://rubygems.org'
+
+gem cucumber, :groups => [:development, :test]
+gem rspec, :groups => [:development, :test]
+gem guard-bundler, :groups => [:development, :test]
+gem guard-rspec, :groups => [:development, :test]
+gem guard-cucumber, :groups => [:development, :test]
+ 
+
