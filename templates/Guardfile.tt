@@ -1,0 +1,10 @@
+# Enable notification via Growl (You must have this app installed w/notify)
+notification :gntp
+
+<% guards = @reader.guards %><% patterns = @reader.patterns %>
+<% guards.each do |g| %><%= "guard '#{g}' do" %><% patterns[g].each do |p| %><% w = p['watch'].nil? ? '' : "watch(#{p['watch']})" %><% b = p['block'].nil? ? '' : "{ #{p['block']} }" %>
+  <%= "#{w} #{b}" %><% end unless patterns[g].nil? %>
+
+<%= "end" %>
+
+<% end %>

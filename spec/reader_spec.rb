@@ -25,7 +25,6 @@ describe Guardian::Reader do
 		return reader
 	end
 
-
 	context "Fetch Available Configurations" do
 		it "should only allow .yaml and .yaml.example files from #{Guardian::CONFIG_PATH} to be loaded" do
 			yaml = File.join(Guardian::CONFIG_PATH, 'test.yaml')

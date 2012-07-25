@@ -129,7 +129,5 @@ describe Guardian::Config do
 			output.include?("guard-rspec has 'valid patterns'")
 			output.include?("guard-bundler has valid patterns")
 		end
-
 	end
-
 end
