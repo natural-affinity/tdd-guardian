@@ -4,8 +4,22 @@ require_relative '../lib/guardian'
 describe Guardian::Generate do
 	include GuardianSpecHelper
 
-	before(:each) do
+	before(:all) do
 		@options = %w[generate]
+		@fopts = {:file => 'test'}
+		@directory = '/Users/zerocool/workspace/test'
+		@klass = Guardian::Generate
+		@commands = %w[gemfile guardfile]
+	end
+
+	before(:each) do
+		create_valid_config(File.join(Guardian::CONFIG_PATH, 'test.yaml'))
+	end
+
+	after(:all) do
+		delete_folder(@directory)
+		FileUtils.rm_f([File.join(Guardian::CONFIG_PATH, 'test.yaml')])
+		FileUtils.rm_f([File.join(Guardian::CONFIG_PATH, '.test.yaml.dir')])
 	end
 
 	let(:output) { capture(:stdout) {Guardian::CLI.start(@options)} }
@@ -21,7 +35,28 @@ describe Guardian::Generate do
 		output.include?("-f, [--file=").should == true
 	end
 
-	it "should feature a --clean (alias -c) class option" do
-		output.include?("-c, [--clean").should == true
+	context "each subcommand" do
+		it "should invoke the Guardian::Config.validate task when called" do
+			@commands.each do | c |
+				run_cli(@klass, {:file => 'invalid'}, c).reader.is_a?(Guardian::Reader).should == true
+			end
+		end
+
+		it "should create the project directory if it does not exist" do
+			@commands.each do | c |
+				delete_folder(@directory)
+				File.directory?(File.join(@directory)).should == false
+				run_cli(@klass, @fopts, c)
+				File.directory?(File.join(@directory)).should == true
+			end
+		end
+
+		it "should create a symlink to the project directory in #{Guardian::CONFIG_PATH}" do
+			@commands.each do | c |
+				FileUtils.rm_f([File.join(Guardian::CONFIG_PATH, '.test.yaml.dir')])
+				run_cli(@klass, @fopts, c)
+				File.exists?(File.join(Guardian::CONFIG_PATH, '.test.yaml.dir')).should == true
+			end
+		end
 	end
 end

@@ -35,7 +35,7 @@ class Guardian::Reader
 	end
 
 	def has_errors?
-		!@errors.empty?
+		!@errors.empty? || !has_config?
 	end
 
 	private

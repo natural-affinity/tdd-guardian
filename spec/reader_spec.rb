@@ -131,8 +131,10 @@ describe Guardian::Reader do
 			reader = write_read_remove({})
 			reader.has_errors?.should == true
 
-			reader = Guardian::Reader.new
+			create_valid_config(File.join(Guardian::CONFIG_PATH, 'test.yaml'))
+			reader = Guardian::Reader.new('test')
 			reader.has_errors?.should == false
+			delete_folder(File.join(Guardian::CONFIG_PATH, 'test.yaml'))
 		end
 	end
 
