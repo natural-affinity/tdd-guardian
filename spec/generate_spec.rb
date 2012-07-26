@@ -9,7 +9,7 @@ describe Guardian::Generate do
 		@fopts = {:file => 'test'}
 		@directory = '/Users/zerocool/workspace/test'
 		@klass = Guardian::Generate
-		@commands = %w[gemfile guardfile]
+		@commands = %w[gemfile guardfile project]
 	end
 
 	before(:each) do

@@ -70,7 +70,11 @@ module GuardianSpecHelper
 	end
 
 	def delete_folder(path)
-		FileUtils.rm_rf(path) if File.exists?(path)
+		if File.directory?(path)
+			FileUtils.remove_dir(path, :force => true)
+		else
+			FileUtils.rm_rf(path) if File.exists?(path)
+		end
 	end
 
 	def create_valid_config(file)

@@ -14,12 +14,12 @@ describe Guardian::Config do
 
 	before(:each) do
 		create_valid_config(File.join(Guardian::CONFIG_PATH, 'test.yaml'))
-		delete_folder(@directory)
 	end
 
 	after(:each) do
 		FileUtils.rm_f([File.join(Guardian::CONFIG_PATH, 'test.yaml')])
 		FileUtils.rm_f([File.join(Guardian::CONFIG_PATH, '.test.yaml.dir')])
+		delete_folder(@directory)
 	end
 
 	it "should create the Guardfile if it does not exist" do

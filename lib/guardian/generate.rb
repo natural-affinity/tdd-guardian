@@ -33,6 +33,15 @@ class Guardian::Generate < Thor
 	desc 'project', 'Create the project directory structure from config'
 	def project
 		build_common_components
+		return unless already_validated?
+
+		write_directory('bin')
+		write_directory('lib')
+		write_directory('scripts')
+		write_directory('features/step_definitions', @reader.guards.include?('cucumber'))
+		write_directory('features/support', @reader.guards.include?('cucumber'))
+		write_directory('spec', @reader.guards.include?('rspec'))
+		write_directory('test', !@reader.guards.include?(%w[rspec cucumber]))
 	end
 
 	private
@@ -44,6 +53,10 @@ class Guardian::Generate < Thor
 
 	def write_template(name)
 		template("./templates/#{name}.tt", "./config/.#{@reader.file}.dir/#{name}") unless @reader.has_errors?
+	end
+
+	def write_directory(subpath, conditional = true)
+		empty_directory("./config/.#{@reader.file}.dir/#{subpath}") if conditional
 	end
 
 	def initial_setup
