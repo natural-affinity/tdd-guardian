@@ -26,4 +26,10 @@ describe Guardian::Config do
 		run_cli(@klass, @options, @command)
 		FileUtils.compare_file(File.join(@directory, 'Gemfile'), @fixture).should == true
 	end
+
+	it "should run bundler after the Gemfile has been created" do
+		cli = Guardian::Generate.new
+		cli.options = @options
+		cli.gemfile.should == true
+	end
 end

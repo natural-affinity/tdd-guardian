@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'ruby_gntp, :groups => [:development, :test] 
+gem 'ruby_gntp', :groups => [:development, :test]
 gem 'rspec', :groups => [:development, :test]
 gem 'cucumber', :groups => [:development, :test]
 gem 'haml', :groups => [:development, :test]

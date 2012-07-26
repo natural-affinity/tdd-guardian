@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'ruby_gntp, :groups => [:development, :test] <% -%>
+gem 'ruby_gntp', :groups => [:development, :test]<% -%>
 <% gems = @reader.guards -%>
 <% gems.each do |item| -%>
 <%= "gem '#{item}', :groups => [:development, :test]" unless item == 'bundler' %>

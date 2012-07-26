@@ -39,11 +39,11 @@ module GuardianSpecHelper
 		output
 	end
 
-	def run_cli(klass, options, command)
+	def run_cli(klass, options, command, command_return = false)
 		cli = klass.new
 		cli.options = options
-		cli.send(command)
-		cli
+		ret = cli.send(command)
+		command_return ? ret : cli
 	end
 
 	def write_settings(project, guards, template, root, single_guards, file)

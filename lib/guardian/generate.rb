@@ -13,21 +13,29 @@ class Guardian::Generate < Thor
 
 	desc 'all', 'Creates the project directory structure, Gemfile, and Guardfile from config'
 	def all
-		project
-		gemfile
-		guardfile
+		project; gemfile; guardfile
 	end
 
 	desc 'gemfile', 'Create the project Gemfile from <config>'
 	def gemfile
 		build_common_components
 		write_template('Gemfile')
+		exec_inside('bundle install')
 	end
 
 	desc 'guardfile', 'Create the project Guardfile from config'
+	method_option :init, :type => :boolean, :aliases => '-i', :desc => 'Also guard init matchers to Guardfile'
 	def guardfile
+		inits = []
 		build_common_components
 		write_template('Guardfile')
+		gemfile unless File.file?("./config/.#{@reader.file}.dir/Gemfile")
+
+		@reader.guards.each do | g |
+			inits.push exec_inside("bundle exec guard init #{g}")
+		end unless @reader.guards.nil? || !options[:init]
+
+		inits
 	end
 
 	desc 'project', 'Create the project directory structure from config'
@@ -52,7 +60,7 @@ class Guardian::Generate < Thor
 	end
 
 	def write_template(name)
-		template("./templates/#{name}.tt", "./config/.#{@reader.file}.dir/#{name}") unless @reader.has_errors?
+		template("./templates/#{name}.tt", "./config/.#{@reader.file}.dir/#{name}") if already_validated?
 	end
 
 	def write_directory(subpath, conditional = true)
@@ -64,11 +72,9 @@ class Guardian::Generate < Thor
 		target_dir = File.join(@reader.root, @reader.project)
 		target_link = "./config/.#{@reader.file}.dir"
 
-		# Create Project Directory
 		empty_directory(target_dir) unless File.directory?(target_dir)
 
-		# Create Link to Project Directory
-		FileUtils.rm_f(File.join(Guardian::CONFIG_PATH, ".#{@reader.file}.dir"))
+		FileUtils.rmdir(File.join(Guardian::CONFIG_PATH, ".#{@reader.file}.dir")) unless File.directory?(target_link)
 		create_link(target_link, target_dir)
 	end
 
@@ -83,5 +89,14 @@ class Guardian::Generate < Thor
 
 	def already_validated?
 		!@valid.nil? && @valid
+	end
+
+	def exec_inside(command)
+		ret = false
+		inside "./config/.#{@reader.file}.dir" do
+			ret = run(command, {:verbose => false})
+		end if already_validated?
+
+	  ret
 	end
 end
