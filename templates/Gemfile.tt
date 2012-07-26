@@ -1,5 +1,10 @@
 source 'http://rubygems.org'
 
-gem 'ruby_gntp, :groups => [:development, :test] <% gems = @reader.guards %><% gems.each do |item| %><%= "gem '#{item}', :groups => [:development, :test]" unless item == 'bundler' %>
-<% end %><% gems.each do |item| %><%= "gem 'guard-#{item}', :groups => [:development, :test]" %>
+gem 'ruby_gntp, :groups => [:development, :test] <% -%>
+<% gems = @reader.guards -%>
+<% gems.each do |item| -%>
+<%= "gem '#{item}', :groups => [:development, :test]" unless item == 'bundler' %>
+<% end -%>
+<% gems.each do |item| -%>
+<%= "gem 'guard-#{item}', :groups => [:development, :test]" %>
 <% end %>

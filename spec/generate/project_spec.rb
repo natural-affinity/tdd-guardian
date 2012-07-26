@@ -22,7 +22,7 @@ describe Guardian::Config do
 		delete_folder(@directory)
 	end
 
-	context "any template" do
+	context "all template" do
 		it "should create a features directory if cucumber is a specified guard" do
 			run_cli(@klass, @options, @command).reader.guards.include?("cucumber").should == true
 			File.directory?(File.join(@directory, 'features/step_definitions')).should == true
@@ -38,9 +38,7 @@ describe Guardian::Config do
 			run_cli(@klass, @options, @command).reader.guards.include?(%w[rspec cucumber]).should == false
 			File.directory?(File.join(@directory, 'test')).should == true
 		end
-	end
 
-	context "general template" do
 		it "should create the project directory structure if it does not exist" do
 			run_cli(@klass, @options, @command)
 			File.directory?(File.join(@directory, 'bin')).should == true

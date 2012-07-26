@@ -1,15 +1,12 @@
 # Enable notification via Growl (You must have this app installed w/notify)
 notification :gntp
 
-
 guard 'bundler' do
-  watch('Gemfile') 
-
+    watch('Gemfile') 
 end
 
 guard 'rspec' do
-  watch(%r{^spec/.+_spec\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
-
+    watch(%r{^spec/.+_spec\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
 end
 
 guard 'cucumber' do
