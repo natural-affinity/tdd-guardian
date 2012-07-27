@@ -17,6 +17,11 @@ class Guardian::Config < Thor
     end
 	end
 
+	desc 'generate', 'Wizard to help generate a skeleton configuration file'
+	def generate
+		say_status :error, "Not Implemented Yet", :red
+	end
+
 	desc 'validate', 'Validates the contents of a configuration file'
 	method_option :file, :required => true, :lazy_default => '', :aliases => '-f'
 	def validate

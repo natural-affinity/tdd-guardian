@@ -9,5 +9,6 @@ describe Guardian::Config do
 		output = capture(:stdout) { Guardian::CLI.start(options) }
     output.should =~ /guardian config list/
 		output.should =~ /guardian config validate/
+		output.should =~ /guardian config generate/
 	end
 end

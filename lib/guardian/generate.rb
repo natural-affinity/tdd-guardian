@@ -12,14 +12,18 @@ class Guardian::Generate < Thor
 	end
 
 	desc 'all', 'Creates the project directory structure, Gemfile, and Guardfile from config'
+	method_option :init, :type => :boolean, :aliases => '-i', :desc => 'Also guard init matchers to Guardfile'
 	def all
-		options[:init] = true
-		project; gemfile; guardfile; runner
+		project;
+		gemfile if has_run;
+		guardfile if has_run;
+		runner if has_run
 	end
 
 	desc 'gemfile', 'Create the project Gemfile from <config>'
 	def gemfile
-		init_common_components
+		return unless init_common_components
+
 		write_template('Gemfile')
 		@util.exec('bundle install', @reader.file, already_validated?)
 	end
@@ -28,7 +32,8 @@ class Guardian::Generate < Thor
 	method_option :init, :type => :boolean, :aliases => '-i', :desc => 'Also guard init matchers to Guardfile'
 	def guardfile
 		inits = []
-		init_common_components
+		return unless init_common_components
+
 		write_template('Guardfile')
 		gemfile unless File.file?(@util.target(@reader.file, true, 'Gemfile'))
 
@@ -41,8 +46,7 @@ class Guardian::Generate < Thor
 
 	desc 'project', 'Create the project directory structure from config'
 	def project
-		init_common_components
-		return unless already_validated?
+		return unless init_common_components
 
 		write_directory('bin')
 		write_directory('lib')
@@ -55,8 +59,7 @@ class Guardian::Generate < Thor
 
 	desc 'runner', 'Create a runner script start.sh to launch guard for the project'
 	def runner
-		init_common_components
-		return unless already_validated?
+		return unless init_common_components
 
 		write_directory('scripts')
 		write_template('start.sh', 'scripts')
@@ -74,6 +77,7 @@ class Guardian::Generate < Thor
 		end
 
 		initial_setup if !@has_run && already_validated?
+		already_validated?
 	end
 
 	def initial_setup
