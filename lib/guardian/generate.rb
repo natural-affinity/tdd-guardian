@@ -13,7 +13,8 @@ class Guardian::Generate < Thor
 
 	desc 'all', 'Creates the project directory structure, Gemfile, and Guardfile from config'
 	def all
-		project; gemfile; guardfile
+		options[:init] = true
+		project; gemfile; guardfile; runner
 	end
 
 	desc 'gemfile', 'Create the project Gemfile from <config>'
@@ -52,6 +53,16 @@ class Guardian::Generate < Thor
 		write_directory('test', !@reader.guards.include?(%w[rspec cucumber]))
 	end
 
+	desc 'runner', 'Create a runner script start.sh to launch guard for the project'
+	def runner
+		init_common_components
+		return unless already_validated?
+
+		write_directory('scripts')
+		write_template('start.sh', 'scripts')
+		chmod(@util.target(@reader.file, true, 'scripts/start.sh'), 0755)
+	end
+
 	private
 
 	def init_common_components
@@ -75,8 +86,9 @@ class Guardian::Generate < Thor
 		create_link(target_link, target_dir)
 	end
 
-	def write_template(name)
-		template("./#{Guardian::TEMPLATE}/#{name}.tt", @util.target(@reader.file, true, name)) if already_validated?
+	def write_template(name, subpath = nil)
+		path = subpath.nil? ? "#{name}" : "#{subpath}/#{name}"
+		template("./#{Guardian::TEMPLATE}/#{name}.tt", @util.target(@reader.file, true, path)) if already_validated?
 	end
 
 	def write_directory(subpath, conditional = true)

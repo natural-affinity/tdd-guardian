@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Launch guard process
+bundle exec guard
+
+# Add other dependency launchers (e.g. thin, webrick, db, etc.)

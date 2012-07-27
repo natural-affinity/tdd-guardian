@@ -9,7 +9,7 @@ describe Guardian::Generate do
 		@fopts = {:file => 'test'}
 		@directory = '/Users/zerocool/workspace/test'
 		@klass = Guardian::Generate
-		@commands = %w[gemfile guardfile project]
+		@commands = %w[gemfile guardfile project runner]
 	end
 
 	before(:each) do
@@ -29,6 +29,7 @@ describe Guardian::Generate do
 		output.should =~ /guardian generate project/
 		output.should =~ /guardian generate gemfile/
 		output.should =~ /guardian generate guardfile/
+		output.should =~ /guardian generate runner/
 	end
 
 	it "should feature a --file=config (alias -f) class option" do

@@ -10,7 +10,7 @@ describe Guardian::Generate do
 		@guardfix = File.join(Guardian::ROOT, 'spec/assets/Guardfile.fixture')
 		@command = 'all'
 		@klass = Guardian::Generate
-		@options = {:file => 'test', :init => true}
+		@options = {:file => 'test'}
 	end
 
 	before(:each) do
@@ -24,7 +24,7 @@ describe Guardian::Generate do
 	end
 
 	context "general template" do
-		it "should create the Gemfile, Guardfile, and directory structure" do
+		it "should create the Gemfile, Guardfile, Runner and directory structure" do
 			run_cli(@klass, @options, @command)
 
 			FileUtils.compare_file(File.join(@directory, 'Gemfile'), @gemfix).should == true
@@ -32,6 +32,7 @@ describe Guardian::Generate do
 			File.directory?(File.join(@directory, 'bin')).should == true
 			File.directory?(File.join(@directory, 'lib')).should == true
 			File.directory?(File.join(@directory, 'scripts')).should == true
+			File.executable?(File.join(@directory, 'scripts/start.sh')).should == true
 		end
 	end
 end
