@@ -6,7 +6,7 @@ describe Guardian::Config do
 
 	before(:all) do
 		@directory = '/Users/zerocool/workspace/test'
-		@fixture = File.join(Guardian::ROOT, 'spec/asset/Gemfile.fixture')
+		@fixture = File.join(Guardian::ROOT, 'spec/assets/Gemfile.fixture')
 		@command = 'gemfile'
 		@klass = Guardian::Generate
 		@options = {:file => 'test'}

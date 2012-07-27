@@ -6,7 +6,7 @@ describe Guardian::Config do
 
 	before(:all) do
 		@directory = '/Users/zerocool/workspace/test'
-		@fixture = File.join(Guardian::ROOT, 'spec/asset/Guardfile.fixture')
+		@fixture = File.join(Guardian::ROOT, 'spec/assets/Guardfile.fixture')
 		@command = 'guardfile'
 		@klass = Guardian::Generate
 	end

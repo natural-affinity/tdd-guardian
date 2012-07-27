@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 require_relative '../../lib/guardian'
 
-describe Guardian::Config do
+describe Guardian::Generate do
 	include GuardianSpecHelper
 
 	before(:all) do
@@ -22,7 +22,7 @@ describe Guardian::Config do
 		delete_folder(@directory)
 	end
 
-	context "all template" do
+	context "all templates" do
 		it "should create a features directory if cucumber is a specified guard" do
 			run_cli(@klass, @options, @command).reader.guards.include?("cucumber").should == true
 			File.directory?(File.join(@directory, 'features/step_definitions')).should == true

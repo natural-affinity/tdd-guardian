@@ -126,8 +126,8 @@ describe Guardian::Config do
 
 			settings = {:guards => {'guards' => %w[bundler rspec]}, :single_guards => single_guards}
 			output = create_capture_remove(:stdout, @options, @config, settings)
-			output.include?("guard-rspec has 'valid patterns'")
-			output.include?("guard-bundler has valid patterns")
+			output.include?("guard-rspec valid patterns detected").should == true
+			output.include?("guard-bundler valid patterns detected").should == true
 		end
 	end
 end

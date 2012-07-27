@@ -41,8 +41,7 @@ class Guardian::Reader
 	private
 
 	def load
-		path = File.join(Guardian::CONFIG_PATH, @file)
-		@data = YAML::load(File.open(path)) if self.has_config?
+		@data = YAML::load(File.open(File.join(Guardian::CONFIG_PATH, @file))) if self.has_config?
 		@data = {} if @data.nil? || @data == false
 
 		parse_root(@data[ROOT])
@@ -75,9 +74,7 @@ class Guardian::Reader
 	def parse_patterns
 		@patterns = {}
 
-		unless @guards.nil?
 			@guards.each do | g |
-
 				unless @data[g].nil?
 					guard_pattern = @data[g][PATTERNS].nil? ? [] : @data[g][PATTERNS]
 					pattern_count = guard_pattern.length
@@ -86,8 +83,7 @@ class Guardian::Reader
 					@errors[g] = PATTERN_ERROR if pattern_count != 0 && pattern_count != guard_pattern.length
 					patterns[g] = guard_pattern unless guard_pattern.empty?
 				end
-			end
-		end
+			end unless @guards.nil?
 
 		@patterns = nil if patterns.empty?
 	end

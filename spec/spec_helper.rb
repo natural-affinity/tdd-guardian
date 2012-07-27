@@ -88,5 +88,4 @@ module GuardianSpecHelper
 
 		write_settings(project, guards, template, root, single_guards, file)
 	end
-
 end
