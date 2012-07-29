@@ -6,6 +6,8 @@ $0 = 'guardian'
 ARGV.clear
 
 module GuardianSpecHelper
+
+	# Technique from Thor specs
 	def capture(stream)
   	begin
     	stream = stream.to_s
