@@ -54,7 +54,7 @@ class Guardian::Generate < Thor
 		write_directory('features/step_definitions', @reader.guards.include?('cucumber'))
 		write_directory('features/support', @reader.guards.include?('cucumber'))
 		write_directory('spec', @reader.guards.include?('rspec'))
-		write_directory('test', !@reader.guards.include?(%w[rspec cucumber]))
+		write_directory('test', !@reader.guards.include?('rspec') && !reader.guards.include?('cucumber'))
 	end
 
 	desc 'runner', 'Create a runner script start.sh to launch guard for the project'

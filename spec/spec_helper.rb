@@ -77,10 +77,13 @@ module GuardianSpecHelper
 		end
 	end
 
-	def create_valid_config(file)
+	def create_valid_config(file, exclude_bdd = false)
+		glist = %w[bundler rspec cucumber haml]
+		glist.delete_if { |g| g == 'rspec' || g == 'cucumber' } if exclude_bdd
+
 		project = {'project' => 'test'}
 		template = {'template' => 'general'}
-		guards = {'guards' => %w[bundler rspec cucumber haml]}
+		guards = {'guards' => glist}
 		root = {'root' => 'tmp'}
 		single_guards = []
 		single_guards.push({'bundler' => {'patterns' => [{'watch' => "'Gemfile'"}]}})

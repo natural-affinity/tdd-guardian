@@ -26,15 +26,20 @@ describe Guardian::Generate do
 			run_cli(@klass, @options, @command).reader.guards.include?("cucumber").should == true
 			File.directory?(File.join(@directory, 'features/step_definitions')).should == true
 			File.directory?(File.join(@directory, 'features/support')).should == true
+			File.directory?(File.join(@directory, 'test')).should == false
 		end
 
 		it "should create a spec directory if rspec is a specified guard" do
 			run_cli(@klass, @options, @command).reader.guards.include?("rspec").should == true
 			File.directory?(File.join(@directory, 'spec')).should == true
+			File.directory?(File.join(@directory, 'test')).should == false
 		end
 
-		it "should create a test directory if cucumber or rspec are not specified" do
-			run_cli(@klass, @options, @command).reader.guards.include?(%w[rspec cucumber]).should == false
+		it "should create a test directory if cucumber and rspec are not specified" do
+			create_valid_config(File.join(Guardian::CONFIG_PATH, 'test.yaml'), true)
+			guards = run_cli(@klass, @options, @command).reader.guards
+			guards.include?("rspec").should == false
+			guards.include?("cucumber").should == false
 			File.directory?(File.join(@directory, 'test')).should == true
 		end
 
