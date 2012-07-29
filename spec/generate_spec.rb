@@ -5,9 +5,10 @@ describe Guardian::Generate do
 	include GuardianSpecHelper
 
 	before(:all) do
+		@directory = get_test_path(Guardian::TEMP_PATH)
+		puts @directory
 		@options = %w[generate]
 		@fopts = {:file => 'test'}
-		@directory = '/Users/zerocool/workspace/test'
 		@klass = Guardian::Generate
 		@commands = %w[gemfile guardfile project runner]
 	end

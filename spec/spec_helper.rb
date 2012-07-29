@@ -81,11 +81,15 @@ module GuardianSpecHelper
 		project = {'project' => 'test'}
 		template = {'template' => 'general'}
 		guards = {'guards' => %w[bundler rspec cucumber haml]}
-		root = {'root' => '~/workspace'}
+		root = {'root' => 'tmp'}
 		single_guards = []
 		single_guards.push({'bundler' => {'patterns' => [{'watch' => "'Gemfile'"}]}})
 		single_guards.push({'rspec' => {'patterns' => [{'watch' => '%r{^spec/.+_spec\.rb$}', 'block' => '|m| "spec/#{m[1]}_spec.rb"'}]}})
 
 		write_settings(project, guards, template, root, single_guards, file)
+	end
+
+	def get_test_path(path)
+		"#{File.expand_path(path)}/test"
 	end
 end

@@ -28,7 +28,7 @@ describe Guardian::Util do
 
 	context "run a command" do
 		it "should run a command inside a directory, linked via config/<target>" do
-			path = File.join(File.expand_path("~/workspace"), "test")
+			path = get_test_path(Guardian::TEMP_PATH)
 
 			create_folder(path)
 			FileUtils.ln_s(path, @util.target('test.yaml', true))

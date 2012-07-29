@@ -106,10 +106,11 @@ describe Guardian::Config do
 		end
 
 		it "should display a success message with the path if a root is specified" do
-			settings = {:root => {'root' => '~/workspace'}}
+			settings = {:root => {'root' => 'tmp'}}
 			output = create_capture_remove(:stdout, @options, @config, settings)
 
-			output.should =~ /project installation directory '\/Users\/zerocool\/workspace' detected/
+			path = Guardian::TEMP_PATH
+			output.should =~ %r{project installation directory '#{path}' detected}
 		end
 
 		it "should display a success message for each guard found" do

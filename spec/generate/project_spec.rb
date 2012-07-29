@@ -5,7 +5,7 @@ describe Guardian::Generate do
 	include GuardianSpecHelper
 
 	before(:all) do
-		@directory = '/Users/zerocool/workspace/test'
+		@directory = get_test_path(Guardian::TEMP_PATH)
 		@command = 'project'
 		@klass = Guardian::Generate
 		@options = {:file => 'test'}

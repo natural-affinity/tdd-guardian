@@ -2,17 +2,19 @@ module Guardian
 
 	# Internal Application Information
 	NAME = 'Guardian'
-	VERSION = '0.1.56'
+	VERSION = '0.1.57'
 	COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'	
 	CONFIGURATION = 'settings.yaml'
 
 	# Directories
 	LIB = 'lib'
+	TEMP = 'tmp'
 	CONFIG = 'config'
 	TEMPLATE = 'templates'
 
 	# General Paths
 	ROOT = File.expand_path('.')
+	TEMP_PATH = "#{ROOT}/#{TEMP}"
 	CONFIG_PATH = "#{ROOT}/#{CONFIG}"
 	TEMPLATE_PATH = "#{ROOT}/#{TEMPLATE}"
 

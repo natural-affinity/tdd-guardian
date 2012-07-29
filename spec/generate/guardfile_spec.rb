@@ -5,7 +5,7 @@ describe Guardian::Config do
 	include GuardianSpecHelper
 
 	before(:all) do
-		@directory = '/Users/zerocool/workspace/test'
+		@directory = get_test_path(Guardian::TEMP_PATH)
 		@fixture = File.join(Guardian::ROOT, 'spec/assets/Guardfile.fixture')
 		@command = 'guardfile'
 		@klass = Guardian::Generate

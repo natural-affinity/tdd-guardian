@@ -5,7 +5,7 @@ describe Guardian::Generate do
 	include GuardianSpecHelper
 
 	before(:all) do
-		@directory = '/Users/zerocool/workspace/test'
+		@directory = get_test_path(Guardian::TEMP_PATH)
 		@gemfix = File.join(Guardian::ROOT, 'spec/assets/Gemfile.fixture')
 		@guardfix = File.join(Guardian::ROOT, 'spec/assets/Guardfile.fixture')
 		@command = 'all'
