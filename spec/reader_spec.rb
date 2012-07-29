@@ -26,7 +26,7 @@ describe Guardian::Reader do
 	end
 
 	context "Fetch Available Configurations" do
-		it "should only allow .yaml and .yaml.example files from #{Guardian::CONFIG_PATH} to be loaded" do
+		it "should only allow .yaml files from #{Guardian::CONFIG_PATH} to be loaded" do
 			yaml = File.join(Guardian::CONFIG_PATH, 'test.yaml')
 			example = File.join(Guardian::CONFIG_PATH, 'test.yaml.example')
 
@@ -34,8 +34,8 @@ describe Guardian::Reader do
 			list = Guardian::Reader.new.available
 			FileUtils.rm_f([yaml, example])
 
-			list.length.should == 2
-			(list - %w[test.yaml test.yaml.example]).length.should == 0
+			list.length.should == 1
+			(list - %w[test.yaml]).length.should == 0
 		end
 
 		it "should not allow hidden files or settings.yaml to be loaded" do

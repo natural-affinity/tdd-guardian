@@ -23,7 +23,7 @@ describe Guardian::Config do
 			output.should_not =~ /\.dotfile_test/
 		end
 
-		it "should only list files that end with .yaml or .yaml.example" do
+		it "should only list files that end with .yaml" do
 			yaml = File.join(Guardian::CONFIG_PATH, 'test_project.yaml')
 			example = File.join(Guardian::CONFIG_PATH, 'test_example.yaml.example')
 			invalid = File.join(Guardian::CONFIG_PATH, 'test_invalid.yml')
@@ -33,7 +33,7 @@ describe Guardian::Config do
 			FileUtils.rm([yaml, example, invalid])
 
 			output.should =~ /test_project\.yaml/
-			output.should =~ /test_example\.yaml\.example/
+			output.should_not =~ /test_example\.yaml\.example/
 			output.should_not =~ /test_invalid\.yml/
 		end
 

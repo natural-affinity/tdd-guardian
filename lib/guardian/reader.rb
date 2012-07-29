@@ -26,7 +26,7 @@ class Guardian::Reader
 	def self.get_available_config
 		files = Dir.entries(Guardian::CONFIG_PATH)
 		files.delete_if { | f | f.start_with?('.') || f == Guardian::CONFIGURATION }
-		files.delete_if { | f | !f.end_with?('.yaml', '.yaml.example') }
+		files.delete_if { | f | !f.end_with?('.yaml') }
 		files
 	end
 
@@ -91,7 +91,7 @@ class Guardian::Reader
 	def get_filename(filename)
 		return '' if filename.nil?
 
-		filename << '.yaml' unless filename.end_with?('.yaml', '.yaml.example')
+		filename << '.yaml' unless filename.end_with?('.yaml')
 		filename
 	end
 end
