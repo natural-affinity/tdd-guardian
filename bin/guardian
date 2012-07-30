@@ -2,4 +2,5 @@
 require 'thor'
 require_relative '../lib/guardian'
 
+# Guardian Executable (via Thor)
 Guardian::CLI.start

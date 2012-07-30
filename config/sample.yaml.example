@@ -1,26 +1,24 @@
 # Sample Project Configuration File
 
 # Specify your project installation root directory
-# (e.g. project installed to <root>/<project name>
+# (e.g. project installed to <root>/<project name>)
 root: ~/workspace
 
 # Specify your project name
 project: my-first-tdd-project
 
-# Specify a project template type to use
-# (available types: general)
+# Specify a project template type to use [general]
 template: general
 
 # Specify a list of guards to use (adds gem and guard to Gemfile)
-# (e.g. haml adds guard-haml and haml to gemfile)
-# Exception: bundler (guard only)
+# (e.g. haml will add guard-haml and haml to gemfile)
 guards:
   - bundler
   - rspec
   - cucumber
   - haml
 
-# Specify any custom watch or watch/block patterns for a guard to add to Guardfile
+# Specify custom watch-block patterns for a guard to add to Guardfile
 # Patterns will be added in addition to defaults if generated with init (i.e. guard-init)
 bundler:
   patterns:

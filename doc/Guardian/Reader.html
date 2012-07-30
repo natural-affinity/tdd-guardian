@@ -1,0 +1,2099 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Guardian::Reader
+  
+    &mdash; TDD Guardian Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (R)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Guardian.html" title="Guardian (module)">Guardian</a></span></span>
+     &raquo; 
+    <span class="title">Reader</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Guardian::Reader
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Guardian::Reader</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/guardian/reader.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Underlying class that parses and validates the Guardian project config file
+format</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="ROOT-constant" class="">ROOT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Name of the project root directory element in the config file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>root</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="GUARDS-constant" class="">GUARDS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Name of the guards element in the config file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>guards</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="PROJECT-constant" class="">PROJECT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Name of the project element in the config file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="TEMPLATE-constant" class="">TEMPLATE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Name of the project template element in the config file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>template</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="PATTERNS-constant" class="">PATTERNS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Name of the patterns element in the config file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>patterns</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="ROOT_ERROR-constant" class="">ROOT_ERROR =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The error message for an invalid root directory</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project installation directory does not exist</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="GUARD_ERROR-constant" class="">GUARD_ERROR =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The error message for invalid guards</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>no guards specified</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="PROJECT_ERROR-constant" class="">PROJECT_ERROR =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The error message for an invalid project name</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project name not specified</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="TEMPLATE_ERROR-constant" class="">TEMPLATE_ERROR =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The error message for an invalid project template</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project template type is unsupported</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="PATTERN_ERROR-constant" class="">PATTERN_ERROR =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The error message for invalid guard patterns</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>has invalid pattern(s) (ensure each has a watch, optionally a block)</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#available-instance_method" title="#available (instance method)">- (Object) <strong>available</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute available.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#data-instance_method" title="#data (instance method)">- (Object) <strong>data</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute data.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#errors-instance_method" title="#errors (instance method)">- (Object) <strong>errors</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute errors.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#file-instance_method" title="#file (instance method)">- (Object) <strong>file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute file.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#guards-instance_method" title="#guards (instance method)">- (Object) <strong>guards</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute guards.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#patterns-instance_method" title="#patterns (instance method)">- (Object) <strong>patterns</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute patterns.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project-instance_method" title="#project (instance method)">- (Object) <strong>project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute project.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#root-instance_method" title="#root (instance method)">- (Object) <strong>root</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute root.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#template-instance_method" title="#template (instance method)">- (Object) <strong>template</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute template.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_available_config-class_method" title="get_available_config (class method)">+ (Array&lt;String&gt;) <strong>get_available_config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Gets a list of recognized configuration files (i.e. any visible
+&lt;config&gt;.yaml file in <span class='object_link'><a href="../Guardian.html#CONFIG-constant" title="Guardian::CONFIG (constant)">CONFIG</a></span>).</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_available_config-instance_method" title="#get_available_config (instance method)">- (Array&lt;String&gt;) <strong>get_available_config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Gets a list of recognized configuration files (i.e. any visible
+&lt;config&gt;.yaml file in <span class='object_link'><a href="../Guardian.html#CONFIG-constant" title="Guardian::CONFIG (constant)">CONFIG</a></span>).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#get_filename-instance_method" title="#get_filename (instance method)">- (String) <strong>get_filename</strong>(filename) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Gets the name of the config file (appends the .yaml extension if not
+specified for convenience).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_config%3F-instance_method" title="#has_config? (instance method)">- (true, false) <strong>has_config?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A convenience method to determine if the desired config file is recognized
+(i.e. available for use).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_errors%3F-instance_method" title="#has_errors? (instance method)">- (true, false) <strong>has_errors?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A convenience method to determine if the desired config file has parsing
+errors or is not recognized.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Guardian::Reader) <strong>initialize</strong>(file = '') </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Loads the desired config file (if available) and validates it on construct.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#load-instance_method" title="#load (instance method)">- (Object) <strong>load</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Loads the project configuration file (YAML) and invokes the validation
+parsers.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#parse_guards-instance_method" title="#parse_guards (instance method)">- (Object) <strong>parse_guards</strong>(guards) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Determines if the guards in the config file are valid (i.e. at least one
+guard is specified).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#parse_patterns-instance_method" title="#parse_patterns (instance method)">- (Object) <strong>parse_patterns</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Determines if the patterns for each guard in the config file are valid
+(i.e. watch or watch-block).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#parse_project-instance_method" title="#parse_project (instance method)">- (Object) <strong>parse_project</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Determines if the project name in the config file is valid.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#parse_root-instance_method" title="#parse_root (instance method)">- (Object) <strong>parse_root</strong>(folder) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Determines if the project installation root directory in the config file is
+valid (i.e. exists) Sets the root attribute if valid, appends to the error
+attribute otherwise.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#parse_template-instance_method" title="#parse_template (instance method)">- (Object) <strong>parse_template</strong>(type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Determines if the project template in the config file is valid (against the
+supported types).</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Guardian::Reader (class)">Guardian::Reader</a></span></tt>) <strong>initialize</strong>(file = '') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Loads the desired config file (if available) and validates it on construct</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>file</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name of the the config file to load</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#load-instance_method" title="Guardian::Reader#load (method)">#load</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 43</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+	<span class='ivar'>@file</span> <span class='op'>=</span> <span class='id identifier rubyid_get_filename'>get_filename</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='ivar'>@errors</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+	<span class='ivar'>@available</span> <span class='op'>=</span> <span class='const'>Guardian</span><span class='op'>::</span><span class='const'>Reader</span><span class='op'>::</span><span class='id identifier rubyid_get_available_config'>get_available_config</span>
+
+	<span class='id identifier rubyid_load'>load</span> <span class='kw'>unless</span> <span class='ivar'>@available</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="available-instance_method">
+  
+    - (<tt>Object</tt>) <strong>available</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute available</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_available'>available</span>
+  <span class='ivar'>@available</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="data-instance_method">
+  
+    - (<tt>Object</tt>) <strong>data</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute data</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_data'>data</span>
+  <span class='ivar'>@data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="errors-instance_method">
+  
+    - (<tt>Object</tt>) <strong>errors</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute errors</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_errors'>errors</span>
+  <span class='ivar'>@errors</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="file-instance_method">
+  
+    - (<tt>Object</tt>) <strong>file</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_file'>file</span>
+  <span class='ivar'>@file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="guards-instance_method">
+  
+    - (<tt>Object</tt>) <strong>guards</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute guards</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_guards'>guards</span>
+  <span class='ivar'>@guards</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="patterns-instance_method">
+  
+    - (<tt>Object</tt>) <strong>patterns</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute patterns</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_patterns'>patterns</span>
+  <span class='ivar'>@patterns</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="project-instance_method">
+  
+    - (<tt>Object</tt>) <strong>project</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute project</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_project'>project</span>
+  <span class='ivar'>@project</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="root-instance_method">
+  
+    - (<tt>Object</tt>) <strong>root</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute root</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_root'>root</span>
+  <span class='ivar'>@root</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="template-instance_method">
+  
+    - (<tt>Object</tt>) <strong>template</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute template</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_template'>template</span>
+  <span class='ivar'>@template</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get_available_config-class_method">
+  
+    + (<tt>Array&lt;String&gt;</tt>) <strong>get_available_config</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Gets a list of recognized configuration files (i.e. any visible
+&lt;config&gt;.yaml file in <span class='object_link'><a href="../Guardian.html#CONFIG-constant" title="Guardian::CONFIG (constant)">CONFIG</a></span>)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a list of config files in <span class='object_link'><a href="../Guardian.html#CONFIG-constant" title="Guardian::CONFIG (constant)">CONFIG</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_available_config'>get_available_config</span>
+	<span class='id identifier rubyid_files'>files</span> <span class='op'>=</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_entries'>entries</span><span class='lparen'>(</span><span class='const'>Guardian</span><span class='op'>::</span><span class='const'>CONFIG_PATH</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>==</span> <span class='const'>Guardian</span><span class='op'>::</span><span class='const'>CONFIGURATION</span> <span class='rbrace'>}</span>
+	<span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>|</span> <span class='op'>!</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.yaml</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+	<span class='id identifier rubyid_files'>files</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get_available_config-instance_method">
+  
+    - (<tt>Array&lt;String&gt;</tt>) <strong>get_available_config</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Gets a list of recognized configuration files (i.e. any visible
+&lt;config&gt;.yaml file in <span class='object_link'><a href="../Guardian.html#CONFIG-constant" title="Guardian::CONFIG (constant)">CONFIG</a></span>)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a list of config files in <span class='object_link'><a href="../Guardian.html#CONFIG-constant" title="Guardian::CONFIG (constant)">CONFIG</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_available_config'>get_available_config</span>
+	<span class='id identifier rubyid_files'>files</span> <span class='op'>=</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_entries'>entries</span><span class='lparen'>(</span><span class='const'>Guardian</span><span class='op'>::</span><span class='const'>CONFIG_PATH</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>==</span> <span class='const'>Guardian</span><span class='op'>::</span><span class='const'>CONFIGURATION</span> <span class='rbrace'>}</span>
+	<span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>|</span> <span class='op'>!</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.yaml</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+	<span class='id identifier rubyid_files'>files</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_filename-instance_method">
+  
+    - (<tt>String</tt>) <strong>get_filename</strong>(filename)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Gets the name of the config file (appends the .yaml extension if not
+specified for convenience)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>name of the config file</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>re-constructed config file name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 153</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_filename'>get_filename</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+	<span class='id identifier rubyid_filename'>filename</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.yaml</span><span class='tstring_end'>'</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.yaml</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_filename'>filename</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_config?-instance_method">
+  
+    - (<tt>true</tt>, <tt>false</tt>) <strong>has_config?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A convenience method to determine if the desired config file is recognized
+(i.e. available for use)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>true</tt>, <tt>false</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if recognized, false otherwise</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_config?'>has_config?</span>
+	<span class='ivar'>@available</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='ivar'>@file</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_errors?-instance_method">
+  
+    - (<tt>true</tt>, <tt>false</tt>) <strong>has_errors?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A convenience method to determine if the desired config file has parsing
+errors or is not recognized</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>true</tt>, <tt>false</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if available and valid, false otherwise</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+71
+72
+73</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 71</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_errors?'>has_errors?</span>
+	<span class='op'>!</span><span class='ivar'>@errors</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_has_config?'>has_config?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load-instance_method">
+  
+    - (<tt>Object</tt>) <strong>load</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Loads the project configuration file (YAML) and invokes the validation
+parsers</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#parse_root-instance_method" title="Guardian::Reader#parse_root (method)">#parse_root</a></span></li>
+    
+      <li><span class='object_link'><a href="#parse_project-instance_method" title="Guardian::Reader#parse_project (method)">#parse_project</a></span></li>
+    
+      <li><span class='object_link'><a href="#parse_template-instance_method" title="Guardian::Reader#parse_template (method)">#parse_template</a></span></li>
+    
+      <li><span class='object_link'><a href="#parse_guards-instance_method" title="Guardian::Reader#parse_guards (method)">#parse_guards</a></span></li>
+    
+      <li><span class='object_link'><a href="#parse_patterns-instance_method" title="Guardian::Reader#parse_patterns (method)">#parse_patterns</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load'>load</span>
+	<span class='ivar'>@data</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='op'>::</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>Guardian</span><span class='op'>::</span><span class='const'>CONFIG_PATH</span><span class='comma'>,</span> <span class='ivar'>@file</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_has_config?'>has_config?</span>
+	<span class='ivar'>@data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@data</span> <span class='op'>==</span> <span class='kw'>false</span>
+
+	<span class='id identifier rubyid_parse_root'>parse_root</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='lbracket'>[</span><span class='const'>ROOT</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_parse_project'>parse_project</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='lbracket'>[</span><span class='const'>PROJECT</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_parse_template'>parse_template</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='lbracket'>[</span><span class='const'>TEMPLATE</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_parse_guards'>parse_guards</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='lbracket'>[</span><span class='const'>GUARDS</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_parse_patterns'>parse_patterns</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_guards-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parse_guards</strong>(guards)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Determines if the guards in the config file are valid (i.e. at least one
+guard is specified)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>guards</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the list of guard names</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 125</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_guards'>parse_guards</span><span class='lparen'>(</span><span class='id identifier rubyid_guards'>guards</span><span class='rparen'>)</span>
+	<span class='ivar'>@errors</span><span class='lbracket'>[</span><span class='const'>GUARDS</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>GUARD_ERROR</span> <span class='kw'>if</span> <span class='id identifier rubyid_guards'>guards</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_guards'>guards</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+	<span class='ivar'>@guards</span> <span class='op'>=</span> <span class='id identifier rubyid_guards'>guards</span> <span class='kw'>unless</span> <span class='ivar'>@errors</span><span class='lbracket'>[</span><span class='const'>GUARDS</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_patterns-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parse_patterns</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Determines if the patterns for each guard in the config file are valid
+(i.e. watch or watch-block)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 132</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_patterns'>parse_patterns</span>
+	<span class='ivar'>@patterns</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+		<span class='ivar'>@guards</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span> <span class='id identifier rubyid_g'>g</span> <span class='op'>|</span>
+			<span class='kw'>unless</span> <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='id identifier rubyid_g'>g</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+				<span class='id identifier rubyid_guard_pattern'>guard_pattern</span> <span class='op'>=</span> <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='id identifier rubyid_g'>g</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='const'>PATTERNS</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='id identifier rubyid_g'>g</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='const'>PATTERNS</span><span class='rbracket'>]</span>
+				<span class='id identifier rubyid_pattern_count'>pattern_count</span> <span class='op'>=</span> <span class='id identifier rubyid_guard_pattern'>guard_pattern</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
+
+				<span class='id identifier rubyid_guard_pattern'>guard_pattern</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span> <span class='id identifier rubyid_p'>p</span> <span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>watch</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span><span class='rbrace'>}</span>
+				<span class='ivar'>@errors</span><span class='lbracket'>[</span><span class='id identifier rubyid_g'>g</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>PATTERN_ERROR</span> <span class='kw'>if</span> <span class='id identifier rubyid_pattern_count'>pattern_count</span> <span class='op'>!=</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_pattern_count'>pattern_count</span> <span class='op'>!=</span> <span class='id identifier rubyid_guard_pattern'>guard_pattern</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
+				<span class='id identifier rubyid_patterns'>patterns</span><span class='lbracket'>[</span><span class='id identifier rubyid_g'>g</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_guard_pattern'>guard_pattern</span> <span class='kw'>unless</span> <span class='id identifier rubyid_guard_pattern'>guard_pattern</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+			<span class='kw'>end</span>
+		<span class='kw'>end</span> <span class='kw'>unless</span> <span class='ivar'>@guards</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+	<span class='ivar'>@patterns</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_patterns'>patterns</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_project-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parse_project</strong>(name)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Determines if the project name in the config file is valid. Sets project
+attribute if valid; appends to the error attribute otherwise</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>project name to validate</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 99</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_project'>parse_project</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+	<span class='ivar'>@errors</span><span class='lbracket'>[</span><span class='const'>PROJECT</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>PROJECT_ERROR</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+	<span class='ivar'>@project</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span> <span class='kw'>unless</span> <span class='ivar'>@errors</span><span class='lbracket'>[</span><span class='const'>PROJECT</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_root-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parse_root</strong>(folder)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Determines if the project installation root directory in the config file is
+valid (i.e. exists) Sets the root attribute if valid, appends to the error
+attribute otherwise</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>folder</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>path to installation root directory</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 113</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_template-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parse_template</strong>(type)  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Determines if the project template in the config file is valid (against the
+supported types). Sets template attribute if valid; appends to the error
+attribute otherwise</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>project template type to validate</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+108
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/guardian/reader.rb', line 108</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_template'>parse_template</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
+	<span class='ivar'>@errors</span><span class='lbracket'>[</span><span class='const'>TEMPLATE</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>TEMPLATE_ERROR</span> <span class='kw'>unless</span> <span class='const'>Guardian</span><span class='op'>::</span><span class='const'>SUPPORTED_TEMPLATES</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
+	<span class='ivar'>@template</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span> <span class='kw'>unless</span> <span class='ivar'>@errors</span><span class='lbracket'>[</span><span class='const'>TEMPLATE</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Mon Jul 30 13:59:57 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

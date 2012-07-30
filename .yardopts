@@ -1,0 +1,13 @@
+--title 'TDD Guardian Documentation'
+--charset utf-8
+--private
+--protected
+--embed-mixin ClassMethods
+--exclude /templates/
+--exclude /config/
+
+lib/**/*.rb
+bin/guardian
+--list-no-doc
+--files LICENSE.md,TODO.md
+--readme README.md

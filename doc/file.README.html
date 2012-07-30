@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; TDD Guardian Documentation
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>Guardian</h1>
+
+<p>This application serves as a skeleton generator for 
+setting up fully automated TDD project templates using 
+Guard.  It allows one to start with a red-green refactor
+cycle with Growl notifications (via gntp) from the get-go.</p>
+
+<h2>Prerequisites</h2>
+
+<ul>
+<li>Bundler Gem 1.2.0.rc (gem install bundler --pre)</li>
+<li>Growl/Growlnotify 1.3+ (or gntp compatible equivalent)</li>
+</ul>
+
+<h2>Supported Platforms</h2>
+
+<ul>
+<li>Mac OSX</li>
+<li>Linux</li>
+</ul>
+
+<h2>Available Templates</h2>
+
+<ul>
+<li>General</li>
+</ul>
+
+<h2>Usage and documentation</h2>
+
+<p>Guardian is a command line application. Please open a terminal to your tdd-guardian root directory.</p>
+
+<h3>Help</h3>
+
+<p>You can get a description of available tasks by invoking the &#39;help&#39; task:<br>
+<code>bash
+$ ./bin/guardian help
+</code></p>
+
+<p>You can get a description of avaialble sub-tasks by invoking the &#39;help&#39; task after the parent task:<br>
+<code>bash
+$ ./bin/guardian generate help
+</code></p>
+
+<h3>Config</h3>
+
+<ul>
+<li>Guardian creates a skeleton project structure based on the YAML config file you specify.</li>
+<li>Configuration files should be stored in: &#39;&lt;tdd-guardian-root&gt;/config&#39; with a .yaml extension</li>
+<li>See &#39;config/sample.yaml.example&#39; for sample values with comments</li>
+</ul>
+
+<p>You can obtain a list of existing config files in the config directory as follows:<br>
+<code>bash
+$ ./bin/guardian config list
+</code></p>
+
+<p>You can determine if you configuration file is valid as follows:<br>
+<code>bash
+$ ./bin/guardian config validate -f, --file=config
+</code></p>
+
+<h3>Generate</h3>
+
+<ul>
+<li>Guardian can help to generate a Gemfile, Guardfile, directory structure, and runner</li>
+<li>The Guardfile can be generated with guard-init defaults or only with custom patterns from your config</li>
+<li>The project directory structure is based on common ruby practices</li>
+<li>The runner serves as shell script to invoke guard and/or other project depenencies (e.g. web server)</li>
+</ul>
+
+<p>You can generate all project artifacts as follows:<br>
+<code>bash
+$ ./bin/guardian generate all -f, --file=config -i, --init
+</code></p>
+
+<p>You can generate the Gemfile exclusively using:<br>
+<code>bash
+$ ./bin/guardian generate gemfile -f, --file=config
+</code></p>
+
+<p>You can generate the Guardfile exclusively using:<br>
+<code>bash
+$ ./bin/guardian generate guardfile -f, --file=config -i, --init
+</code></p>
+
+<p>You can generate the project directory structure exclusively using:<br>
+<code>bash
+$ ./bin/guardian generate project -f, --file=config
+</code></p>
+
+<p>You can generate the runner exclusively using:<br>
+<code>bash
+$ ./bin/guardian generate runner -f, --file=config
+</code></p>
+
+<h2>License</h2>
+
+<p>Released under the MIT License.  See the LICENSE file for further details.</p>
+</div></div>
+
+    <div id="footer">
+  Generated on Mon Jul 30 13:59:56 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

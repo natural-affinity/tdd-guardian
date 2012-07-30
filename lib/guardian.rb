@@ -1,25 +1,47 @@
+# Serves as the wrapper module for the entire application
+# Includes app-level constants and loads all component classes
 module Guardian
 
-	# Internal Application Information
+	# Application Name
 	NAME = 'Guardian'
-	VERSION = '0.1.60'
-	COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'	
+
+	# Application Version
+	VERSION = '0.1.61'
+
+	# Application Copyright
+	COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'
+
+	# Application Configuration Filename
 	CONFIGURATION = 'settings.yaml'
 
-	# Directories
+	# Application Source Directory Name
 	LIB = 'lib'
+
+	# Application Temporary Directory Name
 	TEMP = 'tmp'
+
+	# Application Config Directory Name
 	CONFIG = 'config'
+
+	# Application Template Directory Name
 	TEMPLATE = 'templates'
 
-	# General Paths
+	# Application Root Directory (Absolute Path)
 	ROOT = File.expand_path('.')
+
+	# Application Temp Directory (Absolute Path)
 	TEMP_PATH = "#{ROOT}/#{TEMP}"
+
+	# Application Config Directory (Absolute Path)
 	CONFIG_PATH = "#{ROOT}/#{CONFIG}"
+
+	# Application Template Directory (Absolute Path)
 	TEMPLATE_PATH = "#{ROOT}/#{TEMPLATE}"
 
-	# Supported
+	# Application Supported Template Types
 	SUPPORTED_TEMPLATES = %w[general]
+
+	# Application Supported Config file extensions
 	SUPPORTED_CONFIG_EXTENSIONS = %w[.yaml]
 
 	# Load Guardian Classes
