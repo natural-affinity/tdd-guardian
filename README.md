@@ -48,7 +48,7 @@ $ ./bin/guardian config list
 
 You can determine if you configuration file is valid as follows:  
 ```bash
-$ ./bin/guardian config validate -f, --file=config
+$ ./bin/guardian config validate --file=<config>
 ```
 
 ### Generate
@@ -60,27 +60,27 @@ $ ./bin/guardian config validate -f, --file=config
 
 You can generate all project artifacts as follows:  
 ```bash
-$ ./bin/guardian generate all -f, --file=config -i, --init
+$ ./bin/guardian generate all --file=<config> --init
 ```
 
 You can generate the Gemfile exclusively using:  
 ```bash
-$ ./bin/guardian generate gemfile -f, --file=config
+$ ./bin/guardian generate gemfile --file=<config>
 ```
 
 You can generate the Guardfile exclusively using:  
 ```bash
-$ ./bin/guardian generate guardfile -f, --file=config -i, --init
+$ ./bin/guardian generate guardfile --file=<config> --init
 ```
 
 You can generate the project directory structure exclusively using:  
 ```bash
-$ ./bin/guardian generate project -f, --file=config
+$ ./bin/guardian generate project --file=<config>
 ```
 
 You can generate the runner exclusively using:  
 ```bash
-$ ./bin/guardian generate runner -f, --file=config
+$ ./bin/guardian generate runner --file=<config>
 ```
 
 License
