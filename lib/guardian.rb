@@ -6,7 +6,7 @@ module Guardian
   NAME = 'Guardian'
 
   # Application Version
-  VERSION = '0.1.61'
+  VERSION = '0.1.62'
 
   # Application Copyright
   COPYRIGHT = 'Copyright (C) 2012 Rizwan Tejpar'

@@ -12,6 +12,6 @@ notification :gntp
 <% b = p['block'].nil? ? '' : "{ #{p['block']} }" -%>
   <%= "#{w} #{b}" %>
 <%= "end\n" if patterns[g][0] == p %>
-<% end unless patterns[g].nil? -%>
+<% end unless patterns.nil? || patterns[g].nil? -%>
 <% end -%>
 # Default Matches (via guard init)
